@@ -2,17 +2,17 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from './login/login.component';
-import {MatButtonModule, MatCheckboxModule, MatFormFieldModule,MatSnackBarModule,
+import {MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatSnackBarModule,
     MatIconModule, MatInputModule, MatRadioModule} from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { RegisterComponent } from "./register/register.component";
+import { RegisterComponent } from './register/register.component';
 import {TranslateModule} from '@ngx-translate/core';
-import { FuseConfirmDialogModule} from "../../@fuse/components";
-import { OkDialogModule} from "../../@fuse/components/ok-dialog/ok-dialog.module";
+import { FuseConfirmDialogModule} from '../../@fuse/components';
+import { OkDialogModule} from '../../@fuse/components/ok-dialog/ok-dialog.module';
 
 const routes: Routes = [
     {
@@ -21,7 +21,7 @@ const routes: Routes = [
     },
     {
       path: 'forgot-password',
-      component:ForgotPasswordComponent
+      component: ForgotPasswordComponent
     },
     {
         path: 'register',
@@ -51,8 +51,7 @@ const routes: Routes = [
         FuseConfirmDialogModule,
         OkDialogModule
     ],
-    providers:[
-
+    providers: [
     ]
 })
 export class AuthModule {

@@ -12,16 +12,24 @@
                 </div>
             </div>
         </div>
+
+        <div fxLayout="row">
+            <div class="logo">
+                <img [src]="logoUrl">
+            </div>
+            <div class="title"> {{ 'LOGIN.TITLE' | translate }}</div>
+        </div>
+
         <div class="" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">
-            <button mat-button [matMenuTriggerFor]="userMenu"
+            <!-- <button mat-button [matMenuTriggerFor]="userMenu"
                     class="user-button">
                 <div fxLayout="row" fxLayoutAlign="center center">
                     <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/Velazquez.jpg">
                     <span class="username mr-12" fxHide fxShow.gt-sm>{{ user.mail }}</span>
                     <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
                 </div>
-            </button>
-            <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
+            </button> -->
+            <!-- <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
                 <button mat-menu-item (click) = "showHelp()">
                     <mat-icon>help</mat-icon>
                     <span>Help</span>
@@ -34,8 +42,44 @@
                     <mat-icon>exit_to_app</mat-icon>
                     <span>Logout</span>
                 </button>
+            </mat-menu> -->
+            
+            <!-- <mat-menu #rootMenu="matMenu">
+                <button mat-menu-item [matMenuTriggerFor]="subMenu">Power</button>
+                <button mat-menu-item>System settings</button>
+              </mat-menu>
+              
+              <mat-menu #subMenu="matMenu">
+                <button mat-menu-item>Shut down</button>
+                <button mat-menu-item>Restart</button>
+                <button mat-menu-item>Hibernate</button>
+              </mat-menu> -->
+              
+            <button mat-icon-button class="navbar-toggle-button" (click) = "navigateURL('/home')">
+                <mat-icon>home</mat-icon>
+                <span>{{ 'HOME.TITLE' | translate }}</span>
+            </button>
 
-            </mat-menu>
+            <button mat-icon-button class="navbar-toggle-button" (click) = "navigateURL('/gap')">
+                <mat-icon>pie_chart</mat-icon>
+                <span>{{ 'GAP.TITLE' | translate }}</span>
+            </button>
+
+            <button mat-icon-button class="navbar-toggle-button" (click) = "navigateURL('/home')">
+                <mat-icon>settings_input_component</mat-icon>
+                <span>{{ 'PLAYLIST.TITLE' | translate }}</span>
+            </button>
+
+            <button mat-icon-button class="navbar-toggle-button" (click) = "navigateURL('/gap')">
+                <mat-icon>account_circle</mat-icon>
+                <span>{{ 'PROFILE.TITLE' | translate }}</span>
+            </button>
+
+            <button mat-icon-button class="navbar-toggle-button" (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+                <span>Logout</span>
+            </button>
+
             <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
             <div class="toolbar-separator" *ngIf="!hiddenNavbar && rightNavbar" fxHide fxShow.gt-xs></div>
             <button mat-icon-button class="navbar-toggle-button"

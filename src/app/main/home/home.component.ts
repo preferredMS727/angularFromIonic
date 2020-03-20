@@ -4,12 +4,12 @@ import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.
 
 import { locale as english } from './i18n/en';
 import { locale as turkish } from './i18n/tr';
-import { TranslateService} from "@ngx-translate/core";
-import { FuseConfirmDialogComponent } from "../../../@fuse/components/confirm-dialog/confirm-dialog.component";
+import { TranslateService} from '@ngx-translate/core';
+import { FuseConfirmDialogComponent } from '../../../@fuse/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import {  ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import Cropper from "cropperjs";
+import Cropper from 'cropperjs';
 import { createWorker } from 'tesseract.js';
 
 @Component({
@@ -21,13 +21,13 @@ export class HomeComponent implements OnInit
 {
     @ViewChild('video', { static: true }) videoElement: ElementRef;
     @ViewChild('canvas', { static: true }) canvas: ElementRef;
-    @ViewChild('image', {static:false}) image: ElementRef;
+    @ViewChild('image', {static: false}) image: ElementRef;
 
     videoWidth = 0;
     videoHeight = 0;
     constraints = {
         video: {
-            facingMode: "environment",
+            facingMode: 'environment',
             width: { ideal: 4096 },
             height: { ideal: 2160 }
         }
@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit
         height: 447.8085714285713,
         rotate: 0,
         scaleX: 1,
-        scaleY:1
+        scaleY: 1
     };
     initialBoxData2 = {
         x: 1545.1157142857141,
@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit
         scaleX: 1,
         scaleY: 1
     };
-    initialBoxData:any;
+    initialBoxData: any;
 
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     /**
@@ -71,14 +71,14 @@ export class HomeComponent implements OnInit
      */
     constructor(
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
-        public translate : TranslateService,
+        public translate: TranslateService,
         public dialog: MatDialog,
         private renderer: Renderer2
     )
     {
 
         this._fuseTranslationLoaderService.loadTranslations(english, turkish);
-        if(!localStorage.getItem('suppressIntroduction')){
+        if (!localStorage.getItem('suppressIntroduction')){
             this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
                 disableClose: false
             });
@@ -88,22 +88,24 @@ export class HomeComponent implements OnInit
             this.confirmDialogRef.componentInstance.noButtonTxt = this.translate.instant('GENERAL.DO_NOT_SHOW_BTN');
             this.confirmDialogRef.afterClosed().subscribe(result => {
                 if ( !result ) {
-                   localStorage.setItem('suppressIntroduction','true');
+                   localStorage.setItem('suppressIntroduction', 'true');
                 }
                 this.confirmDialogRef = null;
             });
         }
-        this.imageDestination = "";
-        this.imageSource = "";
+        this.imageDestination = '';
+        this.imageSource = '';
 
     }
-    ngOnInit() {
+    ngOnInit(): void {
         this.startCamera();
     }
-    public ngAfterViewInit() {
 
-    }
-    startCamera() {
+    // public ngAfterViewInit() {
+
+    // }
+
+    startCamera(): void {
         if (!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
             navigator.mediaDevices.getUserMedia(this.constraints).then(this.attachVideo.bind(this)).catch(this.handleError);
         } else {
@@ -111,7 +113,7 @@ export class HomeComponent implements OnInit
         }
     }
 
-    attachVideo(stream) {
+    attachVideo(stream): void {
         this.renderer.setProperty(this.videoElement.nativeElement, 'srcObject', stream);
         this.renderer.listen(this.videoElement.nativeElement, 'play', (event) => {
             this.videoHeight = this.videoElement.nativeElement.videoHeight;
@@ -119,8 +121,8 @@ export class HomeComponent implements OnInit
         });
     }
 
-    capture() {
-        if(this.cropper){
+    capture(): void {
+        if (this.cropper){
             this.cropper.destroy();
         }
         this.renderer.setProperty(this.canvas.nativeElement, 'width', this.videoWidth);
@@ -128,53 +130,50 @@ export class HomeComponent implements OnInit
         this.canvas.nativeElement.getContext('2d').drawImage(this.videoElement.nativeElement, 0, 0);
         this.imageSource = this.canvas.nativeElement.toDataURL('image/png');
 
-        var that = this;
-        setTimeout(function(){
+        const that = this;
+        setTimeout(() => {
             that.cropper = new Cropper(that.image.nativeElement, {
                 zoomable: false,
                 scalable: false,
                 aspectRatio: NaN,
                 crop: () => {
                     const canvas = that.cropper.getCroppedCanvas();
-                    that.imageDestination = canvas.toDataURL("image/png");
+                    that.imageDestination = canvas.toDataURL('image/png');
                 }
             });
-        },50);
-
-
-
-
+        }, 50);
     }
 
-    handleError(error) {
+    handleError(error): void {
         console.log('Error: ', error);
     }
-    preview(files) {
-        if(this.cropper){
+    preview(files): any {
+        if (this.cropper){
             this.cropper.destroy();
         }
-        if (files.length === 0)
+        if (files.length === 0) {
             return;
+        }
 
-        var mimeType = files[0].type;
+        const mimeType = files[0].type;
         if (mimeType.match(/image\/*/) == null) {
             return;
         }
 
-        var reader = new FileReader();
+        const reader = new FileReader();
         reader.readAsDataURL(files[0]);
         console.log(files[0]);
-        if(files[0].size == 789008 && files[0].lastModified == 1582040268844){
+        if (files[0].size === 789008 && files[0].lastModified === 1582040268844){
             this.initialBoxData = this.initialBoxData1;
-        } else if (files[0].size == 388673 && files[0].lastModified == 1582040268223) {
+        } else if (files[0].size === 388673 && files[0].lastModified === 1582040268223) {
             this.initialBoxData = this.initialBoxData2;
         } else {
             // this.initialBoxData = this.initialBoxData1;
         }
         reader.onload = (_event) => {
-            this.imageSource = <any>reader.result;
-            var that = this;
-            setTimeout(function(){
+            this.imageSource = reader.result as any;
+            const that = this;
+            setTimeout(() => {
                 that.cropper = new Cropper(that.image.nativeElement, {
                     zoomable: false,
                     scalable: false,
@@ -183,19 +182,19 @@ export class HomeComponent implements OnInit
                     crop: () => {
                         const canvas = that.cropper.getCroppedCanvas();
                         console.log(that.cropper.getData());
-                        that.imageDestination = canvas.toDataURL("image/png");
+                        that.imageDestination = canvas.toDataURL('image/png');
                     }
                 });
                 that.cropper.setData({
 
                 });
-            },50);
+            }, 50);
 
-        }
+        };
     }
-    async doOCR(  ) {
+    async doOCR(): Promise<void> {
         this.progress = 0;
-        this.ocrResult = "Text will appear here.";
+        this.ocrResult = 'Text will appear here.';
         const worker = createWorker({
             logger: m => {
                 this.progress = m.progress * 100;

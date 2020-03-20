@@ -9,7 +9,8 @@ import { FuseSearchBarModule, FuseShortcutsModule } from '@fuse/components';
 import { FuseSharedModule } from '@fuse/shared.module';
 
 import { ToolbarComponent } from 'app/layout/components/toolbar/toolbar.component';
-import { OkDialogModule } from "../../../../@fuse/components/ok-dialog/ok-dialog.module";
+import { OkDialogModule } from '../../../../@fuse/components/ok-dialog/ok-dialog.module';
+import {TranslateModule} from '@ngx-translate/core';
 
 // import {ApiAuthService} from "../../../services/auth.service";
 @NgModule({
@@ -26,12 +27,13 @@ import { OkDialogModule } from "../../../../@fuse/components/ok-dialog/ok-dialog
         FuseSharedModule,
         FuseSearchBarModule,
         FuseShortcutsModule,
-        OkDialogModule
+        OkDialogModule,
+        TranslateModule.forChild(),
     ],
-    entryComponents:[
+    entryComponents: [
 
     ],
-    providers:[
+    providers: [
         // ApiAuthService
     ],
     exports     : [

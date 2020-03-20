@@ -72,4 +72,6 @@ export class FuseNavigationComponent implements OnInit
              this._changeDetectorRef.markForCheck();
          });
     }
+
+    // logOut
 }

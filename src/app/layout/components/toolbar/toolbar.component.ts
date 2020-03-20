@@ -8,11 +8,12 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { navigation } from 'app/navigation/navigation';
-import {ApiAuthService} from "../../../services/auth.service";
+import {ApiAuthService} from '../../../services/auth.service';
 import { User } from 'app/models/user';
-import { ApiTokenService } from "../../../services/token.service";
-import { OkDialogComponent } from "../../../../@fuse/components/ok-dialog/ok-dialog.component";
+import { ApiTokenService } from '../../../services/token.service';
+import { OkDialogComponent } from '../../../../@fuse/components/ok-dialog/ok-dialog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {Router} from '@angular/router';
 
 @Component({
     selector     : 'toolbar',
@@ -35,6 +36,7 @@ export class ToolbarComponent implements OnInit, OnDestroy
     // Private
     private _unsubscribeAll: Subject<any>;
 
+    logoUrl = 'assets/icons/icon.png';
     /**
      * Constructor
      *
@@ -51,7 +53,9 @@ export class ToolbarComponent implements OnInit, OnDestroy
         private _translateService: TranslateService,
         private _apiAuthService: ApiAuthService,
         public token: ApiTokenService,
+        public router: Router,
         public dialog: MatDialog,
+        private translate: TranslateService
     )
     {
         // Set the defaults
@@ -130,10 +134,10 @@ export class ToolbarComponent implements OnInit, OnDestroy
 
         // Set the selected language from default languages
         this.selectedLanguage = _.find(this.languages, {id: this._translateService.currentLang});
-        let  that = this;
-        setTimeout(function(){
+        const that = this;
+        setTimeout(() => {
             that.user = that.token.getUser();
-        },1000);
+        }, 1000);
     }
 
     /**
@@ -184,16 +188,20 @@ export class ToolbarComponent implements OnInit, OnDestroy
         // Use the selected language for translations
         this._translateService.use(lang.id);
     }
-    logout(){
+    logout(): any  {
         this._apiAuthService.logout();
     }
-    showHelp(){
+    showHelp(): any {
         this.okDialogRef = this.dialog.open(OkDialogComponent, {
             disableClose: false,
-            maxWidth:'500px'
+            maxWidth: '500px'
         });
         this.okDialogRef.componentInstance.headerTxt = this._translateService.instant('PROFILE.HELP_BTN');
         this.okDialogRef.componentInstance.messageTxt = this._translateService.instant('HELP.HOME_TEXT');
         this.okDialogRef.componentInstance.buttonTxt = this._translateService.instant('GENERAL.BACK_BTN');
+    }
+
+    navigateURL(route): void {
+        this.router.navigate([route]);
     }
 }

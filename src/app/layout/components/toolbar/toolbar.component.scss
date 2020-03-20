@@ -15,8 +15,9 @@ toolbar {
         background: inherit !important;
         color: inherit !important;
     }
-
     .logo {
+        width: 36px;
+        margin: auto;
         display: flex;
         align-items: center;
 
@@ -41,6 +42,7 @@ toolbar {
     .navbar-toggle-button {
         min-width: 56px;
         height: 56px;
+        margin: auto 10px;
     }
 
     .toolbar-separator {

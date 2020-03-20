@@ -8,4 +8,11 @@ export const navigation: FuseNavigation[] = [
         icon     : 'home',
         url      : '/home',
     },
+    {
+        id       : 'gap',
+        title    : 'Gap',
+        type     : 'item',
+        icon     : 'home',
+        url      : '/gap',
+    },
 ];
