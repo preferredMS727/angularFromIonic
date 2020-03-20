@@ -1,0 +1,6 @@
+<h1 matDialogTitle>{{headerTxt}}</h1>
+<div mat-dialog-content [innerHTML] = "messageTxt"></div>
+<div mat-dialog-actions class="pt-24">
+    <button mat-raised-button class="mat-accent mr-16" (click)="dialogRef.close(true)">{{ yesButtonTxt }}</button>
+    <button mat-button (click)="dialogRef.close(false)">{{ noButtonTxt }}</button>
+</div>
