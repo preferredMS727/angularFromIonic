@@ -1,0 +1,16 @@
+.container {
+    width: 100%;
+    .badge {
+        min-width: 72px;
+        max-width: 108px;
+        text-align: center;
+        margin-left: 15px;
+        background-color: #00b0f0;
+        border-radius: 4px;
+        color: white;
+        right: 16px;
+        float: right;
+        position: absolute;
+    }
+}
+

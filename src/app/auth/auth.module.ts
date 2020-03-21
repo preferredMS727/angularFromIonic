@@ -16,12 +16,16 @@ import { OkDialogModule} from '../../@fuse/components/ok-dialog/ok-dialog.module
 
 const routes: Routes = [
     {
+        path: '',
+        redirectTo: 'login'
+    },
+    {
         path: 'login',
         component: LoginComponent
     },
     {
-      path: 'forgot-password',
-      component: ForgotPasswordComponent
+        path: 'forgot-password',
+        component: ForgotPasswordComponent
     },
     {
         path: 'register',

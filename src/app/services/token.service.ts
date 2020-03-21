@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {User} from '../models/user';
 import {Subject} from 'rxjs';
+import {DefaultService} from '../../api';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +10,13 @@ export class ApiTokenService {
 
     user?: User = null;
     private syncUidSubject = new Subject<any>();
-    constructor() {
+
+    private intervalId: any;
+    private refreshCycle = 5 * 60 * 1000;
+
+    constructor(
+        private api: DefaultService,
+    ) {
 
     }
 
@@ -25,7 +32,7 @@ export class ApiTokenService {
     public getUser(): any{
         return JSON.parse(localStorage.getItem('user'));
     }
-    private set(token): void{
+    public set(token): void{
         localStorage.setItem('token', token);
     }
 
@@ -94,5 +101,4 @@ export class ApiTokenService {
         else { return false; }
         // return this.isValid();
     }
-
 }

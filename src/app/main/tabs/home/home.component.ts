@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 
 import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
 
-import { locale as english } from './i18n/en';
-import { locale as turkish } from './i18n/tr';
+import { locale as english } from '../i18n/en';
+import { locale as turkish } from '../i18n/tr';
 import { TranslateService} from '@ngx-translate/core';
-import { FuseConfirmDialogComponent } from '../../../@fuse/components/confirm-dialog/confirm-dialog.component';
+import { FuseConfirmDialogComponent } from '../../../../@fuse/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import {  ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';

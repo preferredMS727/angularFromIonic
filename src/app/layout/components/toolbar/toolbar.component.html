@@ -65,14 +65,19 @@
                 <span>{{ 'GAP.TITLE' | translate }}</span>
             </button>
 
-            <button mat-icon-button class="navbar-toggle-button" (click) = "navigateURL('/home')">
+            <button mat-icon-button class="navbar-toggle-button" (click) = "navigateURL('/playlist')">
                 <mat-icon>settings_input_component</mat-icon>
                 <span>{{ 'PLAYLIST.TITLE' | translate }}</span>
             </button>
 
-            <button mat-icon-button class="navbar-toggle-button" (click) = "navigateURL('/gap')">
+            <button mat-icon-button class="navbar-toggle-button" (click) = "navigateURL('/profile')">
                 <mat-icon>account_circle</mat-icon>
                 <span>{{ 'PROFILE.TITLE' | translate }}</span>
+            </button>
+
+            <button mat-icon-button class="navbar-toggle-button" (click)="showHelp()">
+                <mat-icon>help</mat-icon>
+                <span>Help</span>
             </button>
 
             <button mat-icon-button class="navbar-toggle-button" (click)="logout()">

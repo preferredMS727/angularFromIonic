@@ -12,8 +12,8 @@ import {
     MatSnackBar,
     MatSnackBarConfig,   
   } from '@angular/material';
-import {HttpResponse} from "@angular/common/http";
-import {Router} from "@angular/router";
+import {HttpResponse} from '@angular/common/http';
+import {Router} from '@angular/router';
 @Component({
     selector: 'forgot-password',
     templateUrl: './forgot-password.component.html',
@@ -24,15 +24,15 @@ import {Router} from "@angular/router";
 export class ForgotPasswordComponent implements OnInit {
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     forgotPasswordForm: FormGroup;
-    snackConfig:any;
-    logoUrl = "";
+    snackConfig: any;
+    logoUrl = '';
     constructor(
         private _fuseConfigService: FuseConfigService,
         private _formBuilder: FormBuilder,
         private auth: ApiAuthService,
         public snackBar: MatSnackBar,
         public dialog: MatDialog,
-        public translate:TranslateService,
+        public translate: TranslateService,
         public router: Router,
     ) {
         // Configure the layout
@@ -60,19 +60,19 @@ export class ForgotPasswordComponent implements OnInit {
             email: ['', [Validators.required, Validators.email]]
         });
         this.snackConfig = new MatSnackBarConfig();
-        this.snackConfig.verticalPosition = "top";
-        this.snackConfig.horizontalPosition = "center";
+        this.snackConfig.verticalPosition = 'top';
+        this.snackConfig.horizontalPosition = 'center';
         this.snackConfig.duration = 3000;
     }
 
-    onSubmit() {
+    onSubmit(): void {
         this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });
         this.confirmDialogRef.componentInstance.messageTxt = this.translate.instant('RESET_PASSWORD.BEFORE_RESET_MSG');
         this.confirmDialogRef.componentInstance.headerTxt = this.translate.instant('RESET_PASSWORD.TITLE');
         this.confirmDialogRef.componentInstance.yesButtonTxt = this.translate.instant('GENERAL.YES_BTN');
-        this.confirmDialogRef.componentInstance.noButtonTxt = this.translate.instant('GENERAL.NO_BTN')
+        this.confirmDialogRef.componentInstance.noButtonTxt = this.translate.instant('GENERAL.NO_BTN');
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if ( result ) {
                 this.auth.userPasswordGet(this.forgotPasswordForm.value['email'])
@@ -85,9 +85,9 @@ export class ForgotPasswordComponent implements OnInit {
                             if (error1.status === 400) {
                                 this.snackBar.open(this.translate.instant('RESET_PASSWORD.USER_NOT_EXISTS', {
                                     mail: this.forgotPasswordForm.value['email']
-                                }), "Error", this.snackConfig);
+                                }), 'Error', this.snackConfig);
 
-                                this.forgotPasswordForm.setValue({email:''});
+                                this.forgotPasswordForm.setValue({email: ''});
                             } else {
 
                             }
@@ -107,7 +107,7 @@ export class ForgotPasswordComponent implements OnInit {
         // );
     }
 
-    handleResponse (res) {        
+    handleResponse(res): void {        
         // this.forgotPasswordForm = this._formBuilder.group({
         //     email: ['', [Validators.required, Validators.email]]
         // });

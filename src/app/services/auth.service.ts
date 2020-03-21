@@ -6,10 +6,12 @@ import {User} from '../../api';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {ApiTokenService} from './token.service';
 import * as Constants from '../app.const';
-import {Router} from '@angular/router';
+import {Router, NavigationExtras, Params} from '@angular/router';
 import {Token} from '../../api';
 import {sha512} from 'js-sha512';
 import {CustomHttpUrlEncodingCodec} from '../../api/encoder';
+import {DefaultService} from '../../api';
+import { ModalController } from '@ionic/angular';
 
 @Injectable({
     providedIn: 'root'
@@ -17,10 +19,16 @@ import {CustomHttpUrlEncodingCodec} from '../../api/encoder';
 
 export class ApiAuthService {
 
+    private intervalId: any;
+    private refreshCycle = 5 * 60 * 1000;
+
     constructor(
         private http: HttpClient,
         private token: ApiTokenService,
-        public router: Router) {
+        public router: Router,
+        private api: DefaultService,
+        private modalController: ModalController
+        ) {
     }
     public defaultHeaders = new HttpHeaders();
     private loggedIn = new BehaviorSubject < boolean > (this.token.loggedIn());
@@ -32,6 +40,12 @@ export class ApiAuthService {
             'Content-Type': 'application/json'
         })
     };
+
+    public async getUserId(): Promise<number> {
+        console.log('Fetch Access Token for api access.');
+        return Number(localStorage.getItem('userId'));
+    }
+
     changeAuthStatus(value: boolean): void {
         this.loggedIn.next(value);
     }
@@ -209,5 +223,34 @@ export class ApiAuthService {
             return contentTypes[0];
         }
         return type;
+    }
+
+    public async refreshToken(): Promise<void> {
+        this.api.configuration.accessToken = await this.token.get();
+        this.api.configuration.withCredentials = true;
+        try {
+            const response = await this.api.oauth2RefreshGet('response').toPromise();
+            if (response.ok) {
+                this.api.configuration.accessToken = response.body;
+                await this.token.set(response.body);
+                clearTimeout(this.intervalId);
+                this.intervalId = setTimeout(this.refreshToken.bind(this), this.refreshCycle);
+            }
+        } catch (e) {
+            await localStorage.removeItem('accessToken');
+            await localStorage.removeItem('userId');
+            if (this.intervalId !== undefined) {
+                clearTimeout(this.intervalId);
+            }
+            while (await this.modalController.getTop() !== undefined) {
+                await this.modalController.dismiss();
+            }
+            await this.router.navigate(['/login'], {
+                queryParams: {
+                    timeout: '1'
+                } as Params
+            } as NavigationExtras);
+            console.error(e);
+        }
     }
 }
