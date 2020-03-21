@@ -1,0 +1,81 @@
+<div class="container">
+    <mat-list role = "list">
+        <mat-list-item role = "listitem" class="no-inner-padding">
+            <mat-toolbar color="ligit">
+                <div>
+                    <mat-label class="ion-text-wrap">
+                        {{ 'HOME.OVERVIEW_AGGREGATE_LBL' | translate }}
+                    </mat-label>
+                </div>
+                <div class="example-fill-remaining-space"></div>
+                <div style="display: inline-flex;">
+                    <div class="badge fixed-width" color="primary">
+                        {{ this.pension | currency:'EUR' }}
+                    </div>
+                </div>
+            </mat-toolbar>
+            <mat-divider></mat-divider>
+        </mat-list-item>
+        <mat-list-item role = "listitem" class="no-inner-padding">
+            <mat-toolbar color="ligit">
+                <div>
+                    <mat-label class="ion-text-wrap">
+                        <h2>{{'HOME.ADD_INSURANCE_LBL' | translate}}</h2>
+                    </mat-label>
+                </div>
+                <div class="example-fill-remaining-space"></div>
+                <div style="display: inline-flex;">
+                    <mat-icon (click)="addInsurance()">add_circle</mat-icon>
+                </div>
+            </mat-toolbar>
+            <mat-divider></mat-divider>
+        </mat-list-item>
+    </mat-list>
+
+    <mat-list role = "list">
+        <mat-list-item role = "listitem" class="no-inner-padding">
+            <mat-toolbar color="ligit">
+                <div>
+                    <mat-label class="ion-text-wrap">
+                        {{'HOME.LIST_LBL' | translate}}
+                    </mat-label>
+                </div>
+                <div class="example-fill-remaining-space"></div>
+                <div style="display: inline-flex;">
+                </div>
+            </mat-toolbar>
+            <mat-divider></mat-divider>
+        </mat-list-item>
+        <mat-list-item *ngIf="assets.length == 0" role = "listitem" class="no-inner-padding">
+            <mat-toolbar color="ligit">
+                <div>
+                    <mat-label class="ion-text-wrap">
+                        <h2>{{'HOME.NO_INSURANCE' | translate}}</h2>
+                    </mat-label>
+                </div>
+                <div class="example-fill-remaining-space"></div>
+                <div style="display: inline-flex;">
+                </div>
+            </mat-toolbar>
+            <mat-divider></mat-divider>
+        </mat-list-item>
+        <mat-list-item *ngFor="let asset of assets" role = "listitem" class="no-inner-padding" detail="false">
+            <mat-toolbar color="ligit">
+                <div>
+                    <mat-label class="ion-text-wrap">
+                        <h2>{{asset.name}}</h2>
+                        <p>{{'HOME.DATE_LBL' | translate}} {{asset.timestamp}}</p>
+                    </mat-label>
+                </div>
+                <div class="example-fill-remaining-space"></div>
+                <div style="display: inline-flex;align-items: center;">
+                    <div  *ngIf="asset.value !== 0||undefined; else noPension" class="badge fixed-width" color="primary">
+                        {{ asset.value | currency:'EUR' }}
+                    </div>
+                    <mat-icon (click)="deleteInsurance()">restore_from_trash</mat-icon>
+                </div>
+            </mat-toolbar>
+            <mat-divider></mat-divider>
+        </mat-list-item>
+    </mat-list>
+</div>

@@ -12,7 +12,7 @@ export class ApiTokenService {
     private syncUidSubject = new Subject<any>();
 
     private intervalId: any;
-    private refreshCycle = 5 * 60 * 1000;
+    private refreshCycle = 15 * 60 * 1000;
 
     constructor(
         private api: DefaultService,

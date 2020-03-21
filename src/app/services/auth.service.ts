@@ -20,7 +20,7 @@ import { ModalController } from '@ionic/angular';
 export class ApiAuthService {
 
     private intervalId: any;
-    private refreshCycle = 5 * 60 * 1000;
+    private refreshCycle = 15 * 60 * 1000;
 
     constructor(
         private http: HttpClient,
@@ -43,7 +43,7 @@ export class ApiAuthService {
 
     public async getUserId(): Promise<number> {
         console.log('Fetch Access Token for api access.');
-        return Number(localStorage.getItem('userId'));
+        return Number(localStorage.getItem('uid'));
     }
 
     changeAuthStatus(value: boolean): void {

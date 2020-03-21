@@ -1,6 +1,14 @@
 <!-- PROGRESS BAR -->
 <fuse-progress-bar></fuse-progress-bar>
 <!-- / PROGRESS BAR -->
+<ngx-spinner
+    bdColor="rgba(51,51,51,0.8)"
+    size="medium"
+    color="#fff"
+    type="ball-spin"
+>
+    <p style="font-size: 20px; color: white">{{'GENERAL.LOADING' | translate}}</p>
+</ngx-spinner>
 
 <!-- VERTICAL LAYOUT 1 -->
 <ng-container *ngIf="fuseConfig.layout.style === 'vertical-layout-1'">
@@ -24,6 +32,7 @@
 <ng-container *ngIf="fuseConfig.layout.style === 'horizontal-layout-1'">
     <horizontal-layout-1></horizontal-layout-1>
 </ng-container>
+
 <!-- / HORIZONTAL LAYOUT 1 -->
 
 <!--&lt;!&ndash; THEME OPTIONS PANEL &ndash;&gt;-->

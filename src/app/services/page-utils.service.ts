@@ -7,6 +7,8 @@ import {DefaultService, ErrorObj} from '../../api';
 // import {OpenNativeSettings} from '@ionic-native/open-native-settings/ngx';
 import {HttpErrorResponse} from '@angular/common/http';
 import {HelpComponent} from '../main/help/help.component';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { async } from '@angular/core/testing';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +30,7 @@ export class PageUtilsService {
                 private api: DefaultService,
                 private toastCtrl: ToastController,
                 private modalCtrl: ModalController,
+                private spinner: NgxSpinnerService,
                 // private openNativeSettings: OpenNativeSettings
                 ) { }
     
@@ -37,18 +40,31 @@ export class PageUtilsService {
      * Alert that the app is loading. Don't forget to dismiss with #stopLoading()
      */
     public async startLoading(): Promise<void> {
+        // this.spinner.show();
+ 
+        // setTimeout(() => {
+        //   this.spinner.hide();
+        // }, 5000);
+
         if (!this.loading) {
             console.log('Start Loading');
-            const loading = await this.loadingCtrl.create( {
-                spinner: 'circles',
-                message: this.translate.instant('GENERAL.LOADING'),
-                duration: 10000
-            } as LoadingOptions);
-            await loading.present();
-            loading.onDidDismiss().finally(() => {
-                console.log('Set loading false');
-                this.loading = false;
-            });
+            // const loading = await this.loadingCtrl.create( {
+            //     spinner: 'circles',
+            //     message: this.translate.instant('GENERAL.LOADING'),
+            //     duration: 10000
+            // } as LoadingOptions);
+            await this.spinner.show();
+ 
+            // setTimeout(async () => {
+            //     await this.spinner.hide();
+            //     console.log('Set loading false');
+            //     this.loading = false;
+            // }, 10000);
+            // await loading.present();
+            // loading.onDidDismiss().finally(() => {
+            //     console.log('Set loading false');
+            //     this.loading = false;
+            // });
             console.log('Set loading true');
             this.loading = true;
         }
@@ -68,7 +84,10 @@ export class PageUtilsService {
     public async stopLoading(): Promise<void> {
         if (this.loading) {
             console.log('Stop Loading');
-            await this.loadingCtrl.dismiss();
+            await this.spinner.hide();
+            console.log('Set loading false');
+            this.loading = false;
+            // await this.loadingCtrl.dismiss();
         }
     }
 

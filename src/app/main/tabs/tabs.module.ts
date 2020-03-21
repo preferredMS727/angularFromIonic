@@ -14,40 +14,51 @@ import { MaterialModule } from '../material/material.module';
 import { GapComponent } from './gap/gap.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { ProfileComponent } from './profile/profile.component';
+import { TabsComponent } from './tabs.component';
 // import { MatProgressBarModule } from '@angular/material/progress-bar';
 // import { MatButtonModule, MatLabel } from '@angular/material';
 // import { MaterialModule } from 'app/main/material/material.module';
 // import { AuthGuard } from 'app/guard/auth.guard';
 
 const tabsRoute: Routes = [
+    // {
+    //     path: '',
+    //     redirectTo: 'tabs',
+    // },
     {
         path: '',
-        redirectTo: 'home',
-    },
-    {
-        path: 'home',
-        component: HomeComponent
-        // loadChildren: './home/home.module#HomeModule'
-    },
-    {
-        path: 'gap',
-        component: GapComponent
-        // loadChildren: './gap/gap.module#GapModule'
-    },
-    {
-        path: 'playlist',
-        component: PlaylistComponent
-        // loadChildren: './playlist/playlist.module#PlaylistModule'
-    },
-    {
-        path: 'profile',
-        component: ProfileComponent
-        // loadChildren: './profile/profile.module#ProfileModule'
+        component: TabsComponent,
+        children: [
+            {
+                path: 'home',
+                // component: HomeComponent
+                // loadChildren: './home/home.module#HomeModule'
+                loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
+
+            },
+            {
+                path: 'gap',
+                component: GapComponent
+                // loadChildren: './gap/gap.module#GapModule'
+            },
+            {
+                path: 'playlist',
+                component: PlaylistComponent
+                // loadChildren: './playlist/playlist.module#PlaylistModule'
+            },
+            {
+                path: 'profile',
+                component: ProfileComponent
+                // loadChildren: './profile/profile.module#ProfileModule'
+            },
+            // { path: '', redirectTo: 'home', pathMatch: 'full'}      
+        ]
     }
+
 ];
 
 @NgModule({
-  declarations: [HomeComponent, GapComponent, PlaylistComponent, ProfileComponent],
+  declarations: [ TabsComponent, GapComponent, PlaylistComponent, ProfileComponent],
   imports: [
     CommonModule,
     FormsModule,

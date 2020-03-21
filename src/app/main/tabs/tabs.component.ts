@@ -37,8 +37,8 @@ export class TabsComponent implements OnInit {
             this.insurances = await this.playlistService.refreshAllAssets(userId);
             if (this.insurances !== undefined) {
                 console.log(`Got Assets on Tabs Page`);
-                if (this.router.isActive(`tabs/${userId}`, true)) {
-                    await this.router.navigateByUrl(`tabs/${userId}/home`);
+                if (this.router.isActive(`tabs`, true)) {
+                    await this.router.navigateByUrl(`tabs/home`);
                 }
 
             }

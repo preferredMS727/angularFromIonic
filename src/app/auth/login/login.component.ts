@@ -91,12 +91,13 @@ export class LoginComponent implements OnInit {
         }, error => {
             this.auth.logout();
         });
-        this.router.navigate([`tabs/${data['uid']}`]);
+        this.router.navigate([`tabs`]);
+        // this.router.navigate([`tabs/${data['uid']}`]);
     }
     dummyUser(num: number): void {
         this.loginForm.controls['email'].setValue('test' + num.toString() + '@dummy.com');
         this.loginForm.controls['password'].setValue('12TestDumm!89');
-        // this.login(false);
+        this.onSubmit();
     }
 
 }

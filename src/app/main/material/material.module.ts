@@ -11,6 +11,9 @@ import {
     MatToolbarModule,
     MatProgressBarModule,
     MatButtonModule,
+    MatCardModule,
+    MatTabsModule,
+    MatSliderModule,
     // MatOptionModule,
     // MatSelectModule,
     // MatLabelModule
@@ -31,6 +34,9 @@ import {
     MatToolbarModule,
     MatProgressBarModule,
     MatButtonModule,
+    MatCardModule,
+    MatTabsModule,
+    MatSliderModule,
     // MatLabelModule
     // MatOptionModule,
     // MatSelectModule,

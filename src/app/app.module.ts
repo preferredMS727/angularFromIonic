@@ -25,6 +25,8 @@ import {DefaultService} from '../api';
 import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 import {CurrencyPipe} from '@angular/common';
 import { MaterialModule } from './main/material/material.module';
+import { SearchPipe } from './pipes/search.pipe';
+import { NgxSpinnerModule } from 'ngx-spinner';  
 // import { AuthModule } from './auth/auth.module';
 
 // import {PageUtilsService} from './services/page-utils.service';
@@ -32,16 +34,18 @@ import { MaterialModule } from './main/material/material.module';
 const appRoutes: Routes = [
     {
         path: '',
-        redirectTo: 'auth',
+        redirectTo: 'tabs',
         pathMatch: 'full'
     },
     {
         path: 'auth',
-        loadChildren: './auth/auth.module#AuthModule',
+        // loadChildren: './auth/auth.module#AuthModule',
+        loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
     },
     {
-        path      : 'tabs/:userId',
-        loadChildren: './main/tabs/tabs.module#TabsModule',
+        path      : 'tabs',
+        // loadChildren: './main/tabs/tabs.module#TabsModule',
+        loadChildren: () => import('./main/tabs/tabs.module').then(m => m.TabsModule),
         canActivate: [AuthGuard]
     },
     // {
@@ -54,6 +58,7 @@ const appRoutes: Routes = [
 @NgModule({
     declarations: [
         AppComponent,
+        SearchPipe,
     ],
     imports     : [
         BrowserModule,
@@ -72,9 +77,6 @@ const appRoutes: Routes = [
         MatMomentDateModule,
 
         // Material
-        // MatButtonModule,
-        // MatIconModule,
-        // MatLabel,
         MaterialModule,
 
         // Fuse modules
@@ -86,8 +88,7 @@ const appRoutes: Routes = [
 
         // App modules
         LayoutModule,
-        // AuthModule,
-        // TabsModule
+        NgxSpinnerModule
     ],
     bootstrap   : [
         AppComponent

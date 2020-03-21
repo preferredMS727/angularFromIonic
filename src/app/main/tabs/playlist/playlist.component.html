@@ -1,1 +1,38 @@
-<p>playlist works!</p>
+<div class="container">
+    <mat-list role = "list">
+        <mat-card>
+            <mat-tab-group mat-align-tabs="center" [backgroundColor]="accent">
+                <mat-tab>
+                  <ng-template mat-tab-label>
+                    <mat-label>
+                        <h2>{{ 'GENERAL.EXPENSES_LBL' | translate }}</h2>
+                        <p>{{expenditures | currency:'EUR': undefined:'1.0-0' }} {{ 'GENERAL.PER_MONTH_LBL' | translate }}</p>
+                    </mat-label>
+                  </ng-template>
+                  Content 1
+                </mat-tab>
+              
+                <mat-tab>
+                  <ng-template mat-tab-label>
+                    <mat-label>
+                        <h2>{{ 'PLAYLIST.STOCKS_SAVING_LBL' | translate }}</h2>
+                        <p>{{stocksSavingRate | currency:'EUR': undefined:'1.0-0' }} {{ 'GENERAL.PER_MONTH_LBL' | translate }}</p>
+                    </mat-label>
+                  </ng-template>
+                  Content 2
+                </mat-tab>
+              
+                <mat-tab>
+                  <ng-template mat-tab-label>
+                    <mat-label>
+                        <h2>{{ 'PLAYLIST.INTEREST_SAVING_LBL' | translate }}</h2>
+                        <p>{{interestSavingRate | currency:'EUR': undefined:'1.0-0' }} {{ 'GENERAL.PER_MONTH_LBL' | translate }}</p>
+                   </mat-label>
+                  </ng-template>
+              
+                  Content 3
+                </mat-tab>
+              </mat-tab-group>
+        </mat-card>
+    </mat-list>
+</div>

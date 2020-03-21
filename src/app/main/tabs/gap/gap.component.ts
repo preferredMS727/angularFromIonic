@@ -9,17 +9,16 @@ import {Chart} from 'chart.js';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 import {CurrencyPipe} from '@angular/common';
 import {PageUtilsService} from '../../../services/page-utils.service';
-import { FormGroup } from '@angular/forms';
+
 @Component({
   selector: 'app-gap',
   templateUrl: './gap.component.html',
   styleUrls: ['./gap.component.scss']
 })
 export class GapComponent implements OnInit {
-    @ViewChild('barCanvas', { static: true }) barCanvas;
+    @ViewChild('barCanvas', { static: false }) barCanvas;
     public profile: User;
     public pension: number;
-    // gapForm: FormGroup;
     private shares = 0;
     private bonds = 0;
     public capitalPension: number;
@@ -37,14 +36,20 @@ export class GapComponent implements OnInit {
     async ngOnInit(): Promise<void> {
         const userId = await this.authService.getUserId();
         await this.getProfile(userId);
+        console.log('ngOnInit!');
         await this.getInsurances(userId);
         setTimeout(async () => {
-            this.createBarChart();
+            await this.createBarChart();
         }, 500);
+    }
+
+    public absolute(num: number): number {
+        return Math.abs(num);
     }
 
     public async getProfile(userId: number): Promise<void> {
         this.profile = await this.profileService.getProfile(userId);
+        console.log('useID: ', this.profile);
     }
 
     public async getInsurances(userId: number): Promise<void> {
@@ -56,6 +61,7 @@ export class GapComponent implements OnInit {
     }
 
     private async setPension(userId: number): Promise<void> {
+        console.log('useID: ', userId);
         this.pension = (await this.playlistService.getFullPension(userId)).get(80);
         this.capitalPension = (await this.playlistService.getCapitalPension(userId)).get(80);
         this.insurancePension = (await this.playlistService.getInsurancePension(userId)).get(80);
@@ -133,6 +139,7 @@ export class GapComponent implements OnInit {
                 ]
             }
         };
+
         const chart = new Chart(this.barCanvas.nativeElement, {
             plugins: [ChartDataLabels],
             data: data,

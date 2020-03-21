@@ -39,6 +39,8 @@ export class PlaylistService {
         if (this.intervalId !== undefined) {
             clearInterval(this.intervalId);
         }
+        console.log('refreshAllAssets');
+
         this.intervalId = setInterval(this.refreshAllAssets.bind(this), 15 * 60 * 1000, [userId]);
         try {
             this.api.configuration.accessToken = await this.tokenService.get();
@@ -269,6 +271,7 @@ export class PlaylistService {
     }
 
     public async getAssets(userId: number): Promise<Array<Asset>> {
+        console.log('getAssets: ', this.assetArray);
         if (this.assetArray === undefined) {
             await this.refreshAllAssets(userId);
         }
