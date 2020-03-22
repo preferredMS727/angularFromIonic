@@ -1,38 +1,120 @@
 <div class="container">
     <mat-list role = "list">
         <mat-card>
-            <mat-tab-group mat-align-tabs="center" [backgroundColor]="accent">
+            <mat-tab-group mat-align-tabs="center" [backgroundColor]="accent" (focusChange)="setTab($event.index)">
                 <mat-tab>
-                  <ng-template mat-tab-label>
-                    <mat-label>
-                        <h2>{{ 'GENERAL.EXPENSES_LBL' | translate }}</h2>
-                        <p>{{expenditures | currency:'EUR': undefined:'1.0-0' }} {{ 'GENERAL.PER_MONTH_LBL' | translate }}</p>
-                    </mat-label>
-                  </ng-template>
-                  Content 1
+                    <ng-template mat-tab-label>
+                        <mat-label>
+                            <h2>{{ 'GENERAL.EXPENSES_LBL' | translate }}</h2>
+                            <p>{{expenditures | currency:'EUR': undefined:'1.0-0' }} {{ 'GENERAL.PER_MONTH_LBL' | translate }}</p>
+                        </mat-label>
+                    </ng-template>
+                    <mat-list role = "list">
+                        <mat-list-item role = "listitem" class="no-inner-padding">
+                            <mat-icon (click)="expenditures = expenditures - 100" name="arrow-round-down" slot="start">arrow_downward</mat-icon>
+                            <mat-slider min="0" step="100"
+                                *ngIf="this.getTab() == 'expenses'" [(ngModel)]="expenditures" [max]="limit"
+                                color="primary"
+                                pin="true"
+                                snaps="true" (change)="setTrigger()"
+                            >
+                            </mat-slider>
+                            <mat-icon (click)="expenditures = expenditures + 100" name="arrow-round-up" slot="end">arrow_upward</mat-icon>    
+                        </mat-list-item>
+                    </mat-list>
                 </mat-tab>
               
                 <mat-tab>
-                  <ng-template mat-tab-label>
-                    <mat-label>
-                        <h2>{{ 'PLAYLIST.STOCKS_SAVING_LBL' | translate }}</h2>
-                        <p>{{stocksSavingRate | currency:'EUR': undefined:'1.0-0' }} {{ 'GENERAL.PER_MONTH_LBL' | translate }}</p>
-                    </mat-label>
-                  </ng-template>
-                  Content 2
+                    <ng-template mat-tab-label>
+                        <mat-label>
+                            <h2>{{ 'PLAYLIST.STOCKS_SAVING_LBL' | translate }}</h2>
+                            <p>{{stocksSavingRate | currency:'EUR': undefined:'1.0-0' }} {{ 'GENERAL.PER_MONTH_LBL' | translate }}</p>
+                        </mat-label>
+                    </ng-template>
+                    <mat-list role = "list">
+                        <mat-list-item role = "listitem" class="no-inner-padding">
+                            <mat-icon (click)="stocksSavingRate = stocksSavingRate - 25" name="arrow-round-down" slot="start">arrow_downward</mat-icon>
+                            <mat-slider
+                                *ngIf="this.getTab() == 'stocks'" [(ngModel)]="stocksSavingRate"
+                                min="0" step="25" max="1000"
+                                color="primary"
+                                pin="true"
+                                snaps="true" (change)="setTrigger()"
+                            >
+                            </mat-slider>
+                            <mat-icon (click)="stocksSavingRate = stocksSavingRate + 25" name="arrow-round-up" slot="end">arrow_upward</mat-icon>    
+                        </mat-list-item>
+                    </mat-list>
                 </mat-tab>
               
                 <mat-tab>
-                  <ng-template mat-tab-label>
-                    <mat-label>
-                        <h2>{{ 'PLAYLIST.INTEREST_SAVING_LBL' | translate }}</h2>
-                        <p>{{interestSavingRate | currency:'EUR': undefined:'1.0-0' }} {{ 'GENERAL.PER_MONTH_LBL' | translate }}</p>
-                   </mat-label>
-                  </ng-template>
-              
-                  Content 3
+                    <ng-template mat-tab-label>
+                        <mat-label>
+                            <h2>{{ 'PLAYLIST.INTEREST_SAVING_LBL' | translate }}</h2>
+                            <p>{{interestSavingRate | currency:'EUR': undefined:'1.0-0' }} {{ 'GENERAL.PER_MONTH_LBL' | translate }}</p>
+                    </mat-label>
+                    </ng-template>
+                    <mat-list role = "list">
+                        <mat-list-item role = "listitem" class="no-inner-padding">
+                            <mat-icon (click)="interestSavingRate = interestSavingRate - 25" name="arrow-round-down" slot="start">arrow_downward</mat-icon>
+                            <mat-slider
+                                *ngIf="this.getTab() == 'interests'" [(ngModel)]="interestSavingRate"
+                                min="0" step="25" max="1000"
+                                color="primary"
+                                pin="true"
+                                snaps="true" (change)="setTrigger()"
+                            >
+                            </mat-slider>
+                            <mat-icon (click)="interestSavingRate = interestSavingRate + 25" name="arrow-round-up" slot="end">arrow_upward</mat-icon>    
+                        </mat-list-item>
+                    </mat-list>
                 </mat-tab>
               </mat-tab-group>
+        </mat-card>
+
+        <mat-card>
+            <mat-list role = "list" role = "listitem" class="no-inner-padding">
+                <mat-list-item>
+                    <mat-toolbar color="ligit">
+                        <div>
+                            <mat-label class="ion-text-wrap">
+                                {{ 'PLAYLIST.AGGREGATE_LBL' | translate }}
+                            </mat-label>
+                        </div>
+                        <div class="example-fill-remaining-space"></div>
+                        <div style="display: inline-flex;">
+                            <div class="badge fixed-width green">
+                                + {{this.fullPlusPension.get(80) - this.fullPension.get(80) | currency:'EUR': undefined:'1.0-0' }}
+                            </div>
+                            <div class="badge fixed-width" color="primary">
+                                {{this.fullPlusPension.get(80) | currency:'EUR': undefined:'1.0-0' }}
+                            </div>
+                        </div>
+                    </mat-toolbar>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-toolbar color="ligit">
+                        <div>
+                            <mat-label *ngIf="this.fullPlusPension.get(80) < this.expenditures">
+                                {{ 'PLAYLIST.MISSING_PENSION' | translate }}
+                            </mat-label>
+                            <mat-label *ngIf="this.fullPlusPension.get(80) >= this.expenditures">
+                                {{ 'PLAYLIST.PENSION_SURPLUS' | translate }}
+                            </mat-label>
+                        </div>
+                        <div class="example-fill-remaining-space"></div>
+                        <div style="display: inline-flex;">
+                            <div class="badge fixed-width" color="primary">
+                                {{ absolute(this.fullPlusPension.get(80) - this.expenditures) | currency:'EUR': undefined:'1.0-0' }}
+                            </div>
+                        </div>
+                    </mat-toolbar>
+                </mat-list-item>
+            </mat-list>
+        </mat-card>
+
+        <mat-card>
+            <canvas #barCanvas height="200px"></canvas>
         </mat-card>
     </mat-list>
 </div>

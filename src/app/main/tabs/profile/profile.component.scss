@@ -1,0 +1,49 @@
+.container {
+    width: 100vw;
+
+    .save {
+        position: absolute;
+        right: 32px;
+        top: 18px;
+        font-size: 35px;
+        width: 45px;
+        height: 45px;
+    }
+
+    form {
+        display: flex;
+        justify-content: center;
+
+        mat-list {
+            width: 100%;
+            padding-top: 16px;
+
+            mat-list-item {
+                height: 70px;
+            }
+
+            mat-form-field {
+                width: 100%;
+                margin: 8px;
+                padding: 0;
+                // height: -webkit-fill-available;
+                div.mat-form-field-wrapper {
+                    padding: 0;
+                }
+            }
+
+            .pretectButton {
+                display: flex;
+                margin: auto;
+                width: calc(100% - 48px);
+                justify-content: center;
+                padding: 16px;
+            }
+
+            .note {
+                padding: 0 8px;
+            }
+        }
+
+    }
+}

@@ -310,9 +310,13 @@ export class PlaylistComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
 
-    public setTab(tabName): void {
-        console.log('Segment changed', tabName);
-        this.tab = tabName;
+    public setTab(tabIndex): void {
+        switch (tabIndex) {
+            case 0: this.tab = 'expenses'; break;
+            case 1: this.tab = 'stocks'; break;
+            case 2: this.tab = 'interests'; break;
+        }
+        console.log('Segment changed', this.tab);
     }
 
     public getTab(): any {

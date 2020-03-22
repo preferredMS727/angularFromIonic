@@ -1,49 +1,63 @@
 .container {
     // width: 100%;
     width: 100vw;
-    mat-label {
-        h2 {
-            font-size: 18px;
-            margin: 0;
+    mat-card {
+        margin: 16px;
+        mat-label {
+            h2 {
+                font-size: 18px;
+                margin: 0;
+            }
+            p {
+                font-size: 14px;
+                margin: 0;
+            }
         }
-        p {
-            font-size: 14px;
-            margin: 0;
+        
+        mat-slider {
+            width: 90%;
+            display: flex;
+            margin: auto;
+        }
+
+        mat-list-item {
+            height: 65px;
+            .badge {
+                min-width: 88px;
+                max-width: 120px;
+                text-align: center;
+                margin-left: 15px;
+                background-color: #00b0f0;
+                border-radius: 4px;
+                color: white;
+                right: 16px;
+                font-size: 14px;
+                height: 22px;
+                align-items: center;
+                display: flex;
+                justify-content: center;
+            }
+            mat-icon {
+                // color: #00b0f0;
+                right: 16px;
+                font-size: 36px;
+                width: 36px;
+                height: 36px;
+            }
+
+            .green {
+                background-color: #10dc60;
+            }
+        }
+
+        .example-fill-remaining-space {
+            /* This fills the remaining space, by using flexbox. 
+            Every toolbar row uses a flexbox row layout. */
+            flex: 1 1 auto;
+        }
+
+        canvas {
+            // width: ;
         }
     }
-
-    // mat-list-item {
-    //     height: 65px;
-    //     .badge {
-    //         min-width: 88px;
-    //         max-width: 120px;
-    //         text-align: center;
-    //         margin-left: 15px;
-    //         background-color: #00b0f0;
-    //         border-radius: 4px;
-    //         color: white;
-    //         right: 16px;
-    //         font-size: 14px;
-    //         height: 22px;
-    //         align-items: center;
-    //         display: flex;
-    //         justify-content: center;
-    //     }
-
-    //     mat-icon {
-    //         color: #00b0f0;
-    //         right: 16px;
-    //         font-size: 36px;
-    //         width: 36px;
-    //         height: 36px;
-    //     }
-
-
-    // }
-
-    // .example-fill-remaining-space {
-    //     /* This fills the remaining space, by using flexbox. 
-    //        Every toolbar row uses a flexbox row layout. */
-    //     flex: 1 1 auto;
-    // }
 }
