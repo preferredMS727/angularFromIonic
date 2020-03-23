@@ -1,1 +1,25 @@
-<p>search works!</p>
+<div id="modal-content-wrapper">
+    <header id="modal-header">
+        <h1 id="modal-title">{{ 'HOME.ADD_INSURANCE_LBL' | translate }}</h1>
+    </header>
+    <section id="modal-body">
+        <mat-list>
+            <mat-list-item>
+                <mat-label class="overview">{{ 'SEARCH.OVERVIEW_LBL' | translate }}</mat-label>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item
+                (click)="addInsurance(insurance)"
+                *ngFor="let insurance of insurances"
+            >
+                {{ getLabelForType(insurance.type) }}
+                <mat-divider></mat-divider>
+            </mat-list-item>
+        </mat-list>
+    </section>
+    <footer id="modal-footer">
+        <button mat-raised-button id="modal-cancel-button" (click)="closeModal()">
+            {{ 'GENERAL.BACK_BTN' | translate }}
+        </button>
+    </footer>
+</div>

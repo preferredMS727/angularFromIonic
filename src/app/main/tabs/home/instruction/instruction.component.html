@@ -1,1 +1,21 @@
-<p>instruction works!</p>
+<div id="modal-content-wrapper">
+    <header id="modal-header">
+        <h1 id="modal-title">{{ 'INSTRUCTION.TITLE' | translate }}</h1>
+    </header>
+    <section id="modal-body">
+        <div [innerHTML]="instructionText" class="show-list-numbers-and-dots, plaintext"></div>
+        <mat-checkbox
+            [(ngModel)]="instruction"
+            [labelPosition]="'before'"
+            [disabled]="disabled"
+            (change)="suppressInstruction()"
+        >
+            {{ 'GENERAL.DO_NOT_SHOW_BTN' | translate }}
+        </mat-checkbox>
+    </section>
+    <footer id="modal-footer">
+        <button mat-raised-button id="modal-cancel-button" (click)="closeModal()">
+            {{ 'GENERAL.CANCEL_BTN' | translate }}
+        </button>
+    </footer>
+</div>

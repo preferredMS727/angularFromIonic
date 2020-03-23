@@ -55,11 +55,11 @@ export class PageUtilsService {
             // } as LoadingOptions);
             await this.spinner.show();
  
-            // setTimeout(async () => {
-            //     await this.spinner.hide();
-            //     console.log('Set loading false');
-            //     this.loading = false;
-            // }, 10000);
+            setTimeout(async () => {
+                await this.spinner.hide();
+                console.log('Set loading false');
+                this.loading = false;
+            }, 20000);
             // await loading.present();
             // loading.onDidDismiss().finally(() => {
             //     console.log('Set loading false');

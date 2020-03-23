@@ -15,6 +15,9 @@ import {
     MatTabsModule,
     MatSliderModule,
     MatSelectModule,
+    MatDialogModule,
+    MatCheckboxModule,
+    MatGridListModule,
     // MatOptionModule,
     // MatSelectModule,
     // MatLabelModule
@@ -39,6 +42,9 @@ import {
     MatTabsModule,
     MatSliderModule,
     MatSelectModule,
+    MatDialogModule,
+    MatCheckboxModule,
+    MatGridListModule
     // MatLabelModule
     // MatOptionModule,
     // MatSelectModule,

@@ -1,4 +1,9 @@
 <div class="container">
+    <div>
+        <img
+        src="http://www.titikshapublicschool.com/wp-content/uploads/2018/11/developer-api.jpg" alt=""
+        >
+    </div>
     <mat-list role = "list">
         <mat-list-item role = "listitem" class="no-inner-padding">
             <mat-toolbar color="ligit">
@@ -72,7 +77,7 @@
                     <div  *ngIf="asset.value !== 0||undefined; else noPension" class="badge fixed-width" color="primary">
                         {{ asset.value | currency:'EUR' }}
                     </div>
-                    <mat-icon (click)="deleteInsurance()">restore_from_trash</mat-icon>
+                    <mat-icon (click)="deleteInsurance()">delete</mat-icon>
                 </div>
             </mat-toolbar>
             <mat-divider></mat-divider>

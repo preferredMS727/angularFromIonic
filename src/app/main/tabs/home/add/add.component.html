@@ -1,1 +1,32 @@
-<p>add works!</p>
+<div id="modal-content-wrapper">
+    <header id="modal-header">
+        <h1 id="modal-title">{{ 'HOME.ADD_INSURANCE_LBL' | translate }}</h1>
+    </header>
+    <section id="modal-body">
+        <div [innerHTML]="this.getInformationTitle(this.insuranceType)" class="text-wrap"></div>
+        <mat-divider></mat-divider>
+        <div class="img-div">
+            <img
+                *ngIf="this.getExamplePic() !== ''"
+                [src]="this.getExamplePic()" alt="Sample Image for your reference."
+                (click)="this.showExampleImg(this.getExamplePic())"
+            >
+        </div>
+
+        <form [formGroup]="yearFormGroup" id="year1">
+            <!-- <ion-item id="yearInput1"> -->
+                <mat-label positmat="floating">
+                    {{ 'ADD.YEAR1_LBL' | translate }}
+                </mat-label>
+                <!-- <input [formControl]="year" type="number"></input> -->
+                <input matInput [formControl]="year" type="number" placeholder="Just a placeholder">
+            <!-- </ion-item> -->
+        </form>
+
+    </section>
+    <footer id="modal-footer">
+        <button mat-raised-button id="modal-cancel-button" (click)="closeModal()">
+            {{ 'GENERAL.CANCEL_BTN' | translate }}
+        </button>
+    </footer>
+</div>

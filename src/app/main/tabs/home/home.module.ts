@@ -21,6 +21,7 @@ import { AddComponent } from './add/add.component';
 import {InstructionComponent} from './instruction/instruction.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from 'app/main/material/material.module';
+import { AlertComponent } from './alert/alert.component';
 // import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 // import {Camera} from '@ionic-native/camera/ngx';
    
@@ -38,7 +39,7 @@ const homeRoute: Routes = [
 ];
 
 @NgModule({
-    declarations: [HomeComponent, InsuranceListComponent, AddComponent, SearchComponent, InstructionComponent],
+    declarations: [HomeComponent, InsuranceListComponent, AddComponent, SearchComponent, InstructionComponent, AlertComponent],
     imports     : [
         CommonModule,
         FormsModule,
@@ -47,7 +48,7 @@ const homeRoute: Routes = [
         ReactiveFormsModule,
         MaterialModule
     ],
-    entryComponents: [SearchComponent, InstructionComponent, AddComponent],
+    entryComponents: [SearchComponent, InstructionComponent, AddComponent, AlertComponent],
     providers: [
         // File,
         // AbbyyRTR,

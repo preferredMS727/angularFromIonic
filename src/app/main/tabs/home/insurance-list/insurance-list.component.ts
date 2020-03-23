@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Asset, DefaultService} from '../../../../../api';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {AlertController, ModalController} from '@ionic/angular';
+// import {AlertController, ModalController} from '@ionic/angular';
 import {TranslateService} from '@ngx-translate/core';
 import {PageUtilsService} from '../../../../services/page-utils.service';
 import {AlertButton, AlertOptions, ModalOptions} from '@ionic/core';
@@ -12,6 +12,12 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {ProfileService} from '../../../../services/profile.service';
 import TypeEnum = Asset.TypeEnum;
 import { ApiTokenService } from 'app/services/token.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+
+// export interface DialogData {
+//     animal: string;
+//     name: string;
+// }
 
 @Component({
   selector: 'app-insurance-list',
@@ -40,17 +46,18 @@ export class InsuranceListComponent implements OnInit {
     constructor(
         private activatedRoute: ActivatedRoute,
         private api: DefaultService,
-        private alertCtrl: AlertController,
+        // private alertCtrl: AlertController,
         private router: Router,
         private translate: TranslateService,
         private pageUtils: PageUtilsService,
-        private modalCtrl: ModalController,
+        // private modalCtrl: ModalController,
         private auth: ApiAuthService,
         private toekn: ApiTokenService,
         private playlistService: PlaylistService,
         private changeDetector: ChangeDetectorRef,
         private profileService: ProfileService,
-        private cdr: ChangeDetectorRef
+        private cdr: ChangeDetectorRef,
+        public matDialog: MatDialog
     ) { 
         this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
@@ -164,12 +171,28 @@ export class InsuranceListComponent implements OnInit {
     public async addInsurance(): Promise<void> {
         await this.pageUtils.startLoading();
         const userId = await this.auth.getUserId();
-        const modal = await this.modalCtrl.create( {
-            component: SearchComponent,
-            componentProps: {userId: userId}
-        } as ModalOptions);
-        await modal.present();
-        modal.onDidDismiss().then(() => this.getInsurances(userId));
+
+        const dialogConfig = new MatDialogConfig();
+        // The user can't close the dialog by clicking outside its body
+        dialogConfig.disableClose = true;
+        dialogConfig.id = 'modal-component';
+        dialogConfig.height = '500px';
+        dialogConfig.width = '600px';
+        dialogConfig.data = {userId: userId};
+        // https://material.angular.io/components/dialog/overview
+        const modalDialog = this.matDialog.open(SearchComponent, dialogConfig);
+        modalDialog.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+            this.getInsurances(userId);
+        });
+
+        await this.pageUtils.stopLoading();
+        // const modal = await this.modalCtrl.create( {
+        //     component: SearchComponent,
+        //     componentProps: {userId: userId}
+        // } as ModalOptions);
+        // await modal.present();
+        // modal.onDidDismiss().then(() => this.getInsurances(userId));
     }
 
     /**

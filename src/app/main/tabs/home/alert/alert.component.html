@@ -1,0 +1,21 @@
+<div id="modal-content-wrapper">
+    <header id="modal-header">
+        <h1 id="modal-title">{{ data.insuranceType | translate }} {{ 'SEARCH.ALERT_HDR' | translate }}</h1>
+        <h2 id="modal-title">{{ 'SEARCH.ALERT_MSG' | translate }}</h2>
+    </header>
+    <section id="modal-body">
+        <input 
+            matInput type="text" name="insuranceName" [(ngModel)]="insurance.name"
+            placeholder="{{ this.translate.instant('SEARCH.ALERT_INPUT_PLC') }}"
+        >
+    </section>
+    <footer id="modal-footer">
+        <button mat-raised-button id="modal-cancel-button" (click)="closeModal()">
+            {{ 'GENERAL.CANCEL_BTN' | translate }}
+        </button>
+        <button mat-raised-button id="modal-cancel-button" (click)="handle(insurance.name)">
+            {{ 'GENERAL.CONFIRM_BTN' | translate }}
+        </button>
+    </footer>
+</div>
+ 
