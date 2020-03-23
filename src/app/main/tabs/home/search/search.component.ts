@@ -9,7 +9,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import TypeEnum = Asset.TypeEnum;
 // import { DialogData } from '../insurance-list/insurance-list.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { AlertComponent } from '../alert/alert.component';
+import { AlerthomeComponent } from '../alerthome/alerthome.component';
+import { AlertComponent } from '../../../../_shared/alert/alert.component';
 
 @Component({
   selector: 'app-search',
@@ -39,6 +40,7 @@ export class SearchComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        this.userId = this.data.userId;
     }
 
     closeModal(): void {
@@ -57,13 +59,15 @@ export class SearchComponent implements OnInit {
         alertDialogConfig.id = 'alert-component';
         alertDialogConfig.height = '350px';
         alertDialogConfig.width = '300px';
+        console.log('test user: ', this.userId);
         alertDialogConfig.data = {userId: this.userId, insurance: insurance};
         // https://material.angular.io/components/dialog/overview
-        const modalDialog = this.matDialog.open(AlertComponent, alertDialogConfig);
+        const modalDialog = this.matDialog.open(AlerthomeComponent, alertDialogConfig);
         modalDialog.afterClosed().subscribe(result => {
             console.log('The dialog was closed: ', result);
             // this.getInsurances(userId);
         });
+        
 
         // const alert = await this.alertCtrl.create( {
         //     header: this.translate.instant('SEARCH.ALERT_HDR', {insuranceType: insurance.type}),

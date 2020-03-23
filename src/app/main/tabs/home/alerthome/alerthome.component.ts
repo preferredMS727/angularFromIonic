@@ -9,16 +9,16 @@ import { InstructionComponent } from '../instruction/instruction.component';
 
 @Component({
   selector: 'app-alert',
-  templateUrl: './alert.component.html',
-  styleUrls: ['./alert.component.scss']
+  templateUrl: './alerthome.component.html',
+  styleUrls: ['./alerthome.component.scss']
 })
-export class AlertComponent implements OnInit {
+export class AlerthomeComponent implements OnInit {
     userId: string;
     insurance: any;
 
     constructor(
         private translate: TranslateService,
-        public dialogRef: MatDialogRef<AlertComponent>,
+        public dialogRef: MatDialogRef<AlerthomeComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private matDialog: MatDialog
     ) { }
@@ -55,6 +55,8 @@ export class AlertComponent implements OnInit {
         const modalConfig = new MatDialogConfig();
         modalConfig.disableClose = true;
         modalConfig.id = 'add-component';
+        modalConfig.maxHeight = '900px';
+        // modalConfig.position  = { top: '5%', bottom: '5%'};
         // modalConfig.height = '650px';
         // modalConfig.width = '600px';
         modalConfig.data = {userId: this.userId, insuranceType: this.insurance.type, insuranceName: this.insurance.name};
@@ -90,7 +92,7 @@ export class AlertComponent implements OnInit {
 
         const modalConfig = new MatDialogConfig();
         modalConfig.disableClose = true;
-        modalConfig.id = 'Add-component';
+        modalConfig.id = 'instruction-component';
         modalConfig.height = '650px';
         modalConfig.width = '600px';
         modalConfig.data = {instructionText: instructionText};

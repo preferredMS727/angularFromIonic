@@ -11,7 +11,7 @@ import {Token} from '../../api';
 import {sha512} from 'js-sha512';
 import {CustomHttpUrlEncodingCodec} from '../../api/encoder';
 import {DefaultService} from '../../api';
-import { ModalController } from '@ionic/angular';
+// import { ModalController } from '@ionic/angular';
 
 @Injectable({
     providedIn: 'root'
@@ -20,14 +20,14 @@ import { ModalController } from '@ionic/angular';
 export class ApiAuthService {
 
     private intervalId: any;
-    private refreshCycle = 15 * 60 * 1000;
+    private refreshCycle = 120 * 60 * 1000;
 
     constructor(
         private http: HttpClient,
         private token: ApiTokenService,
         public router: Router,
         private api: DefaultService,
-        private modalController: ModalController
+        // private modalController: ModalController
         ) {
     }
     public defaultHeaders = new HttpHeaders();
@@ -242,10 +242,10 @@ export class ApiAuthService {
             if (this.intervalId !== undefined) {
                 clearTimeout(this.intervalId);
             }
-            while (await this.modalController.getTop() !== undefined) {
-                await this.modalController.dismiss();
-            }
-            await this.router.navigate(['/login'], {
+            // while (await this.modalController.getTop() !== undefined) {
+            //     await this.modalController.dismiss();
+            // }
+            await this.router.navigate(['/auth/login'], {
                 queryParams: {
                     timeout: '1'
                 } as Params

@@ -1,0 +1,48 @@
+.plaintext {
+    color: #000000;
+    font-size: large;
+}
+
+.data-protection {
+    button {
+        background-color: #00b0f0;
+        color: white;
+    }
+    .header {
+        padding: 16px;
+        display: flex;
+        justify-self: center;
+        align-items: center;
+        position: fixed;
+        overflow: hidden;
+        z-index: 10;
+        width: 100%;
+        background-color: #aaaab1;
+
+        .full-button {
+            width: 100%;
+            margin-bottom: 22px;
+            background-color: #00b0f0;
+            color: white;
+        }
+
+        mat-checkbox {
+            display: flex;
+            justify-self: center;
+            align-items: center;
+            width: 100%;
+            label.mat-checkbox-layout {
+                width: 100%;
+            }
+        }
+    }
+
+    mat-list {
+        position: fixed;
+        overflow: hidden;
+        z-index: 9;
+        width: 100%;
+        background-color: #aaaab1;
+        bottom: 0;
+    }
+}

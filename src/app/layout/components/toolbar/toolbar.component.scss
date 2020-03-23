@@ -42,7 +42,12 @@ toolbar {
     .navbar-toggle-button {
         min-width: 56px;
         height: 56px;
-        margin: auto 10px;
+        margin: 0px;
+        width: min-content;
+        // display: contents;
+        span {
+            margin: 4px;
+        }
     }
 
     .toolbar-separator {

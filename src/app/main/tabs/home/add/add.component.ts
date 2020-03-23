@@ -17,7 +17,7 @@ import {ApiTokenService} from '../../../../services/token.service';
 // import {Camera} from '@ionic-native/camera/ngx';
 // import {AlertButton, AlertOptions} from '@ionic/core';
 import TypeEnum = Asset.TypeEnum;
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig, MatDialog } from '@angular/material';
 
 export interface Tile {
     color: string;
@@ -132,8 +132,7 @@ export class AddComponent implements OnInit, AfterViewInit {
         private cd: ChangeDetectorRef,
         public dialogRef: MatDialogRef<AddComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
-
-
+        private matDialog: MatDialog
     ) { }
 
     ngOnInit(): void {
@@ -382,11 +381,12 @@ export class AddComponent implements OnInit, AfterViewInit {
         console.log(this.assetModel);
         this.api.configuration.accessToken = await this.tokenService.get();
         this.api.configuration.withCredentials = true;
+
         this.api.usersUserIdAssetsPost(this.userId, this.assetModel, 'response').subscribe(
             async (response: HttpResponse<Asset>) => {
                 await this.pageUtils.stopLoading();
                 await this.uploadPhoto(response.body);
-                this.modalCtrl.dismiss().then(() => this.modalCtrl.dismiss());
+                this.closeModal();
                 await this.playlistService.refreshAllAssets(this.userId);
             },
             async (error: HttpErrorResponse) => {
@@ -400,39 +400,48 @@ export class AddComponent implements OnInit, AfterViewInit {
      * @param asset: The insurance the picture belongs to
      */
     private async uploadPhoto(asset: Asset): Promise<any> {
-        this.imageAsB64.forEach((value, key) => {
-            this.pageUtils.startLoading();
-            // const upfile = new File();
-            // upfile.resolveLocalFilesystemUrl(value)
-            //     .then(async (entry: FileEntry) => {
-            //         await this.pageUtils.stopLoading();
-            //         entry.file(async file => {
-            //             await this.pageUtils.startLoading();
-            //             console.log(file.localURL);
-            //             const reader = new FileReader();
-            //             reader.onloadend = async () => {
-            //                 const imgBlob = new Blob([reader.result], {type: file.type});
-            //                 this.api.configuration.accessToken = await this.authService.getToken();
-            //                 this.api.configuration.withCredentials = true;
-            //                 this.api.usersUserIdAssetsAssetIdFilePost(this.userId, asset.id, imgBlob, 'response').subscribe(
-            //                     async () => {
-            //                         await this.pageUtils.stopLoading();
-            //                         console.log('File uploaded successfully');
-            //                         // this.router.navigateByUrl(`tabs/${this.userId}/home`).finally(() => this.utils.stopLoading());
-            //                     },
-            //                     async (error: HttpErrorResponse) => {
-            //                         await this.pageUtils.stopLoading();
-            //                         await this.pageUtils.apiErrorHandler(error, this.userId, this.authService.refreshToken());
-            //                     });
-            //             };
-            //             reader.readAsArrayBuffer(file);
-            //         });
-            //     })
-            //     .catch(async error => {
-            //         await this.pageUtils.stopLoading();
-            //         console.error(error);
-            //     });
-        });
+        // const base64Data = 'data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
+        // console.log('imageAsB64: ', this.imageAsB64);
+        // console.log(this.urltoFile(base64Data, 'testImageFile', 'image/*'));
+
+        this.pageUtils.startLoading();
+        this.urltoFile(this.imageAsB64, 'upload', 'image/*')
+            .then(async (file) => {
+                this.api.configuration.accessToken = await this.tokenService.get();
+                this.api.configuration.withCredentials = true;
+                this.api.usersUserIdAssetsAssetIdFilePost(this.userId, asset.id, file, 'response').subscribe(
+                    async () => {
+                        await this.pageUtils.stopLoading();
+                        console.log('File uploaded successfully');
+                    },
+                    async (error: HttpErrorResponse) => {
+                        await this.pageUtils.stopLoading();
+                        await this.pageUtils.apiErrorHandler(error, this.userId, this.authService.refreshToken());
+                    });
+
+            });
+    }
+
+    dataURItoBlob(dataURI): Blob {
+        const byteString = window.atob(dataURI);
+        const arrayBuffer = new ArrayBuffer(byteString.length);
+        const int8Array = new Uint8Array(arrayBuffer);
+        for (let i = 0; i < byteString.length; i++) {
+          int8Array[i] = byteString.charCodeAt(i);
+        }
+        const blob = new Blob([int8Array], { type: 'image/png' });    
+        return blob;
+     }
+
+    urltoFile(url, filename, mimeType): Promise<File> {
+        return (fetch(url)
+            .then((res) => {
+              return res.arrayBuffer();
+            })
+            .then((buf) => {
+              return new File([buf], filename, { type : mimeType });
+            })
+        );
     }
 
     /**
@@ -460,13 +469,13 @@ export class AddComponent implements OnInit, AfterViewInit {
                 break;
         }
         console.log(instructionText);
-        const modal = await this.modalCtrl.create({
-            component: InstructionComponent,
-            componentProps: {
-                instructionText: instructionText
-            }
-        });
-        await modal.present();
+        const modalConfig = new MatDialogConfig();
+        modalConfig.disableClose = true;
+        modalConfig.id = 'instruction-component';
+        modalConfig.height = '650px';
+        modalConfig.width = '600px';
+        modalConfig.data = {instructionText: instructionText};
+        const modalDialog = this.matDialog.open(InstructionComponent, modalConfig);
     }
 
     /**

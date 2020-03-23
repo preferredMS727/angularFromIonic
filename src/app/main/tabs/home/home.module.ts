@@ -21,7 +21,8 @@ import { AddComponent } from './add/add.component';
 import {InstructionComponent} from './instruction/instruction.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from 'app/main/material/material.module';
-import { AlertComponent } from './alert/alert.component';
+import { SharedCpntsModule } from 'app/_shared/shared-cpnts.module';
+import { AlerthomeComponent } from './alerthome/alerthome.component';
 // import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 // import {Camera} from '@ionic-native/camera/ngx';
    
@@ -39,16 +40,17 @@ const homeRoute: Routes = [
 ];
 
 @NgModule({
-    declarations: [HomeComponent, InsuranceListComponent, AddComponent, SearchComponent, InstructionComponent, AlertComponent],
+    declarations: [HomeComponent, InsuranceListComponent, AddComponent, SearchComponent, InstructionComponent, AlerthomeComponent, AlerthomeComponent],
     imports     : [
         CommonModule,
         FormsModule,
         RouterModule.forChild(homeRoute),
         TranslateModule.forChild(),
         ReactiveFormsModule,
-        MaterialModule
+        MaterialModule,
+        SharedCpntsModule
     ],
-    entryComponents: [SearchComponent, InstructionComponent, AddComponent, AlertComponent],
+    entryComponents: [SearchComponent, InstructionComponent, AddComponent, AlerthomeComponent],
     providers: [
         // File,
         // AbbyyRTR,

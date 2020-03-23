@@ -3,8 +3,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DefaultService, User} from '../../../../api';
 import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import {TranslateService} from '@ngx-translate/core';
-import {AlertController, LoadingController} from '@ionic/angular';
-import {AlertButton, AlertOptions} from '@ionic/core';
+// import {AlertController, LoadingController} from '@ionic/angular';
+// import {AlertButton, AlertOptions} from '@ionic/core';
 import {sha512} from 'js-sha512';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageUtilsService} from '../../../services/page-utils.service';
@@ -13,6 +13,8 @@ import {ApiTokenService} from '../../../services/token.service';
 import {PlaylistService} from '../../../services/playlist.service';
 import {TabsComponent} from '../tabs.component';
 import {ProfileService} from '../../../services/profile.service';
+import { AlertComponent } from '../../../_shared/alert/alert.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-profile',
@@ -48,19 +50,21 @@ export class ProfileComponent implements OnInit {
         bonds: this.bondsCtrl
     });
 
-    constructor(private activatedRoute: ActivatedRoute,
-                private api: DefaultService,
-                public translate: TranslateService,
-                private loadingCtrl: LoadingController,
-                private alertCtrl: AlertController,
-                private router: Router,
-                public pageUtils: PageUtilsService,
-                public authService: ApiAuthService,
-                public tokenService: ApiTokenService,
-                private playlistService: PlaylistService,
-                private profileService: ProfileService,
-                private tabsPage: TabsComponent,
-                ) { }
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        private api: DefaultService,
+        public translate: TranslateService,
+        // private loadingCtrl: LoadingController,
+        // private alertCtrl: AlertController,
+        private router: Router,
+        public pageUtils: PageUtilsService,
+        public authService: ApiAuthService,
+        public tokenService: ApiTokenService,
+        private playlistService: PlaylistService,
+        private profileService: ProfileService,
+        private tabsPage: TabsComponent,
+        public matDialog: MatDialog
+    ) { }
 
     async ngOnInit(): Promise<void> {
         await this.refreshProfileData();
@@ -90,52 +94,71 @@ export class ProfileComponent implements OnInit {
      * This method allows the user to update his/her credentials and saves them to the backend
      */
     public async save(): Promise<any> {
+        console.log('this.passwordCtrl.value: ', this.passwordCtrl.value);
+        console.log('this.password2Ctrl.value: ', this.password2Ctrl.value);
         if (this.passwordCtrl.value !== null && this.passwordCtrl.value !== '') {
             if (this.password2Ctrl.value === null || this.password2Ctrl.value === '') {
                 this.passwordMissing();
                 return;
             } else {
                 if (this.passwordCtrl.value !== this.password2Ctrl.value) {
-                    const alert = await this.alertCtrl.create({
-                        header: this.translate.instant('PROFILE.USER_ERROR'),
-                        message: this.translate.instant('PROFILE.PWD_DIFFERENCE'),
-                        buttons: [{text: this.translate.instant('GENERAL.CONFIRM_BTN')}]
+                    const alert = this.matDialog.open(AlertComponent, {
+                        data: {
+                            header: this.translate.instant('PROFILE.USER_ERROR'),
+                            message: this.translate.instant('PROFILE.PWD_DIFFERENCE'),
+                            buttons: [
+                                {
+                                    text: this.translate.instant('GENERAL.CONFIRM_BTN'),
+                                },
+                            ]
+                        }
                     });
-                    await alert.present();
                     console.log('Passwörter stimmen nicht überein');
                     return;
                 } else if (this.passwordCtrl.value.length < 8) {
-                    const alert = await this.alertCtrl.create( {
-                        header: this.translate.instant('PROFILE.USER_ERROR'),
-                        subHeader: this.translate.instant('PROFILE.PWD_REQUIREMENTS'),
-                        message: this.translate.instant('PROFILE.PWD_MIN_LENGTH'),
-                        buttons: [{text: this.translate.instant('GENERAL.CONFIRM_BTN')}]
-                    } as AlertOptions);
-                    await alert.present();
+                    const alert = this.matDialog.open(AlertComponent, {
+                        data: {
+                            header: this.translate.instant('PROFILE.USER_ERROR'),
+                            subHeader: this.translate.instant('PROFILE.PWD_REQUIREMENTS'),
+                            message: this.translate.instant('PROFILE.PWD_MIN_LENGTH'),
+                            buttons: [
+                                {
+                                    text: this.translate.instant('GENERAL.CONFIRM_BTN'),
+                                },
+                            ]
+                        }
+                    });
                     console.log('Passwort entspricht nicht den Mindestanforderungen');
                     return;
                 } else {
-                    const alert = await this.alertCtrl.create({
-                        header: this.translate.instant('PROFILE.CHANGE_PWD_HDR'),
-                        message: this.translate.instant('PROFILE.CHANGE_PWD_MSG'),
-                        buttons: [ {
-                            text: this.translate.instant('GENERAL.YES_BTN'),
-                            handler: () => {
-                                this.saveUser(
-                                    sha512(`${this.passwordCtrl.value}`),
-                                    this.translate.instant('PROFILE.CHANGE_PROFILE_SUCCESS')
-                                    + this.translate.instant('PROFILE.CHANGE_PWD_SUCCESS'));
-                            }
-                        } as AlertButton,
-                             {
-                                text: this.translate.instant('GENERAL.NO_BTN'),
-                                handler: () => {
-                                    this.passwordCtrl.reset();
-                                    this.password2Ctrl.reset();
-                                }
-                            } as AlertButton]
+                    const alert = this.matDialog.open(AlertComponent, {
+                        data: {
+                            header: this.translate.instant('PROFILE.CHANGE_PWD_HDR'),
+                            message: this.translate.instant('PROFILE.CHANGE_PWD_MSG'),
+                            buttons: [
+                                {
+                                    text: this.translate.instant('GENERAL.YES_BTN'),
+                                    role: 'yes'
+                                },
+                                {
+                                    text: this.translate.instant('GENERAL.NO_BTN'),
+                                    role: 'no'
+                                },
+                            ]
+                        }
                     });
-                    await alert.present();
+
+                    alert.afterClosed().subscribe(buttonType => {
+                        if (buttonType === 'yes') {
+                            this.saveUser(
+                                sha512(`${this.passwordCtrl.value}`),
+                                this.translate.instant('PROFILE.CHANGE_PROFILE_SUCCESS') + this.translate.instant('PROFILE.CHANGE_PWD_SUCCESS')
+                            );
+                        } else if (buttonType === 'no') {
+                            this.passwordCtrl.reset();
+                            this.password2Ctrl.reset();
+                        }
+                    });
                 }
             }
         } else if (this.password2Ctrl.value !== null && this.password2Ctrl.value !== '') {
@@ -167,12 +190,17 @@ export class ProfileComponent implements OnInit {
             .subscribe(async (response: HttpResponse<string>) => {
                     await this.pageUtils.stopLoading();
                     if (response.ok) {
-                        const alert = await this.alertCtrl.create({
-                            header: this.translate.instant('PROFILE.CHANGE_PROFILE_SUCCESS_HDR'),
-                            message: message,
-                            buttons: [{text: this.translate.instant('GENERAL.CONFIRM_BTN')}]
+                        const alert = this.matDialog.open(AlertComponent, {
+                            data: {
+                                header: this.translate.instant('PROFILE.CHANGE_PROFILE_SUCCESS_HDR'),
+                                message: message,
+                                buttons: [
+                                    {
+                                        text: this.translate.instant('GENERAL.CONFIRM_BTN')
+                                    }
+                                ]
+                            }
                         });
-                        await alert.present();
                         await this.tabsPage.refresh();
                         await this.refreshProfileData();
                     }
@@ -188,16 +216,21 @@ export class ProfileComponent implements OnInit {
      * This method displays the data protection regulations
      */
     public async showDataProtection(): Promise<void> {
-        await this.router.navigateByUrl(`login/data-protection`);
+        await this.router.navigateByUrl(`auth/data-protection`);
     }
 
     private async passwordMissing(): Promise<void> {
-        const alert = await this.alertCtrl.create({
-            header: this.translate.instant('PROFILE.USER_ERROR'),
-            message: this.translate.instant('PROFILE.PWD_MISSING'),
-            buttons: [{text: this.translate.instant('GENERAL.CONFIRM_BTN')}]
+        const alert = this.matDialog.open(AlertComponent, {
+            data: {
+                header: this.translate.instant('PROFILE.USER_ERROR'),
+                message: this.translate.instant('PROFILE.PWD_MISSING'),
+                buttons: [
+                    {
+                        text: this.translate.instant('GENERAL.CONFIRM_BTN')
+                    }
+                ]
+            }
         });
-        await alert.present();
         console.log('Ein Passwort fehlt');
     }
 

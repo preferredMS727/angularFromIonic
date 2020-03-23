@@ -1,6 +1,11 @@
 .container {
     // width: 100%;
     width: 100vw;
+    
+    mat-icon {
+        cursor: pointer;
+    }
+
     mat-list-item {
         height: 64px;
         .badge {

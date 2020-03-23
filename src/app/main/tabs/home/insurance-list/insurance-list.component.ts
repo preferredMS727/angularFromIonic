@@ -13,6 +13,7 @@ import {ProfileService} from '../../../../services/profile.service';
 import TypeEnum = Asset.TypeEnum;
 import { ApiTokenService } from 'app/services/token.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { AlertComponent } from '../../../../_shared/alert/alert.component';
 
 // export interface DialogData {
 //     animal: string;
@@ -143,27 +144,36 @@ export class InsuranceListComponent implements OnInit {
         this.pension = (await this.playlistService.getInsurancePension(userId)).get(80);
         this.changeDetector.markForCheck();
     }
-    // public async deleteInsurance(asset: Asset) {
-    //     const alert = await this.alertCtrl.create(<AlertOptions>{
-    //         header: this.translate.instant('HOME.DELETE_INSURANCE_HDR', {
-    //             insurance_name: asset.name
-    //         }),
-    //         message: this.translate.instant('HOME.DELETE_INSURANCE_MSG', {
-    //             insurance_name: asset.name
-    //         }),
-    //         buttons: [<AlertButton>
-    //             {
-    //                 text: this.translate.instant('GENERAL.NO_BTN'),
-    //                 role: 'cancel',
-    //             },
-    //             {
-    //                 text: this.translate.instant('GENERAL.YES_BTN'),
-    //                 handler: () => this.deleteInsuranceHandler(asset)
-    //             }
-    //         ]
-    //     });
-    //     await alert.present();
-    // }
+    public async deleteInsurance(asset: Asset): Promise<void>  {        
+        const deleteAlert = this.matDialog.open(AlertComponent, {
+            data: {
+                header: this.translate.instant('HOME.DELETE_INSURANCE_HDR', {insurance_name: asset.name }),
+                message: this.translate.instant('HOME.DELETE_INSURANCE_MSG', {
+                    insurance_name: asset.name
+                }),
+                buttons: [
+                    {
+                        text: this.translate.instant('GENERAL.NO_BTN'),
+                        role: 'cancel',
+                    },
+                    {
+                        text: this.translate.instant('GENERAL.YES_BTN'),
+                        role: 'yes'
+                    }
+                ]
+            }
+        });
+
+        deleteAlert.afterClosed().subscribe(result => {
+            console.log('result: ', result);
+            if (result === 'yes') {
+                this.deleteInsuranceHandler(asset);
+            }
+        });
+
+    }
+
+
 
     /*
      * This method adds an insurance to the view

@@ -1,0 +1,15 @@
+<div id="modal-content-wrapper">
+    <header id="modal-header">
+        <h1 id="modal-title">{{ data.header }}</h1>
+        <h1 *ngIf="data.subHeader" id="modal-title">{{ data.subHeader }}</h1>
+    </header>
+    <section id="modal-body">
+        <mat-label>{{ data.message }}</mat-label>
+    </section>
+    <footer id="modal-footer">
+        <button mat-raised-button *ngFor="let button of data.buttons" (click)="close(button.role)">
+            {{ button.text }}
+        </button>
+    </footer>
+</div>
+ 
