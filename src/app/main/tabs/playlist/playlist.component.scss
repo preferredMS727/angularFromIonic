@@ -1,6 +1,17 @@
 .container {
     // width: 100%;
     width: 100vw;
+    display: flex;
+
+    mat-list.left {
+        width: 60%;
+    }
+
+    mat-list.right {
+        width: 40%;
+        margin-left: 0;
+    }
+
     mat-card {
         margin: 16px;
         mat-label {
