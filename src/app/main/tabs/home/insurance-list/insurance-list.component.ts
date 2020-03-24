@@ -83,7 +83,7 @@ export class InsuranceListComponent implements OnInit {
 
     private async getInsurances(userId: number): Promise<void> {
         console.log('it is called before startLoading!');
-        // await this.pageUtils.startLoading();
+        await this.pageUtils.startLoading();
 
         if (this.intervalId !== undefined) {
             clearInterval(this.intervalId);
@@ -95,7 +95,6 @@ export class InsuranceListComponent implements OnInit {
         this.riesterArray = new Array<Asset>();
         this.assets = await this.playlistService.getAssets(userId);
         // console.log(this.playlistService.getAssets(userId));
-        console.log('useID: ', this.riesterArray);
         // this.playlistService.getAssets(userId).then(async assets => {
         console.log('assets: ', this.assets);
 

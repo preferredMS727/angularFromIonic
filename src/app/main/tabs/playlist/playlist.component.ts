@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, AfterViewInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, ViewChild, AfterViewInit, OnDestroy, HostListener} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {User} from '../../../../api';
 import {AlertController} from '@ionic/angular';
@@ -77,6 +77,14 @@ export class PlaylistComponent implements OnInit, AfterViewInit, OnDestroy {
         ) {
     }
 
+
+    // @HostListener('window:resize', [])
+    // private async onResize(): Promise<void> {
+    //     console.log('window resize!');
+    //     // this.barChart = this.getBarChart();
+    //     await this.createChart();
+    // }
+    
     /**
      * This method assigns certain texts on initiation
      */
@@ -127,7 +135,7 @@ export class PlaylistComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.fullPension = await this.playlistService.getFullPension(await this.authService.getUserId());
                     this.fullPlusPension = this.fullPension;
                     this.barChart = this.getBarChart();
-                    await this.createChart();
+                    // await this.createChart();
 
                     // this.subscriptionId = this.screenOrientation.onChange().subscribe(async () => {
                     //     await this.createChart();

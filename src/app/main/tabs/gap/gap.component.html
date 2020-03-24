@@ -11,7 +11,7 @@
                 <div class="example-fill-remaining-space"></div>
                 <div style="display: inline-flex;">
                     <div class="badge fixed-width" color="primary">
-                        {{ this.pension | currency:'EUR' }}
+                        {{ (this.pension == undefined ? 0 : this.pension) | currency:'EUR' }}
                     </div>
                 </div>
             </mat-toolbar>

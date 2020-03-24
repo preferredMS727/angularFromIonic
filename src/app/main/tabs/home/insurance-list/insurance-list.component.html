@@ -74,9 +74,9 @@
                 </div>
                 <div class="example-fill-remaining-space"></div>
                 <div style="display: inline-flex;align-items: center;">
-                    <div  *ngIf="asset.value !== 0||undefined; else noPension" class="badge fixed-width" color="primary">
-                        {{ asset.value | currency:'EUR' }}
-                    </div>
+                    <mat-label  *ngIf="asset.value !== 0||undefined; else noPension" class="badge fixed-width" color="primary">
+                        {{ asset.value === undefined? 'Wird errechnet...' : asset.value | currency:'EUR' }}
+                    </mat-label>
                     <mat-icon (click)="deleteInsurance(asset)">delete</mat-icon>
                 </div>
             </mat-toolbar>

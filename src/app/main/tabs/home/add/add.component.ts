@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, AfterView
 import {Asset, DefaultService} from '../../../../../api';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 // import {AbbyyRTR, TextCaptureResult} from '@ionic-native/abbyy-rtr/ngx';
-import {AlertController, ModalController, ToastController} from '@ionic/angular';
+// import {AlertController, ModalController, ToastController} from '@ionic/angular';
 // import {NativeStorage} from '@ionic-native/native-storage/ngx';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageUtilsService} from '../../../../services/page-utils.service';
@@ -122,9 +122,9 @@ export class AddComponent implements OnInit, AfterViewInit {
         private translate: TranslateService,
         // private storage: NativeStorage,
         // private camera: Camera,
-        private alertCtrl: AlertController,
-        public modalCtrl: ModalController,
-        private toastCtrl: ToastController,
+        // private alertCtrl: AlertController,
+        // public modalCtrl: ModalController,
+        // private toastCtrl: ToastController,
         private pageUtils: PageUtilsService,
         private playlistService: PlaylistService,
         private authService: ApiAuthService,
@@ -253,33 +253,33 @@ export class AddComponent implements OnInit, AfterViewInit {
      */
     public startAbbyy(): void {
         this.ready = false;
-        this.alertCtrl.create({
-            header: this.translate.instant('ADD.SCAN_ALERT_HDR'),
-            message: this.translate.instant('ADD.SCAN_ALERT_MSG'),
-            buttons: [{
-                text: this.translate.instant('ADD.SCAN_ALERT_SHOW_BTN'),
-                handler: () => {
-                    this.showExample();
-                }
-            },
-                {
-                    text: this.translate.instant('ADD.SCAN_ALERT_START_BTN'),
-                    handler: () => {
-                        console.log('Start camera for ocr scan. OCRSize: ' + this.customForms[this.currentIndex].getOcrSizes());
-                        // this.abbyyRtr.startTextCapture({
-                        //     selectableRecognitionLanguages: ['German'],
-                        //     recognitionLanguages: ['German'],
+        // this.alertCtrl.create({
+        //     header: this.translate.instant('ADD.SCAN_ALERT_HDR'),
+        //     message: this.translate.instant('ADD.SCAN_ALERT_MSG'),
+        //     buttons: [{
+        //         text: this.translate.instant('ADD.SCAN_ALERT_SHOW_BTN'),
+        //         handler: () => {
+        //             this.showExample();
+        //         }
+        //     },
+        //         {
+        //             text: this.translate.instant('ADD.SCAN_ALERT_START_BTN'),
+        //             handler: () => {
+        //                 console.log('Start camera for ocr scan. OCRSize: ' + this.customForms[this.currentIndex].getOcrSizes());
+        //                 this.abbyyRtr.startTextCapture({
+        //                     selectableRecognitionLanguages: ['German'],
+        //                     recognitionLanguages: ['German'],
 
-                        //     licenseFileName: 'AbbyyRtrSdk.license',
-                        //     isFlashlightVisible: true,
-                        //     stopWhenStable: true,
-                        //     areaOfInterest: (this.customForms[this.currentIndex].getOcrSizes()),
-                        //     isStopButtonVisible: false,
-                        // }).then((res: any) => this.fillForm(res))
-                        //     .catch((error: any) => console.error(error));
-                    }
-                }]
-        }).then(alert => alert.present());
+        //                     licenseFileName: 'AbbyyRtrSdk.license',
+        //                     isFlashlightVisible: true,
+        //                     stopWhenStable: true,
+        //                     areaOfInterest: (this.customForms[this.currentIndex].getOcrSizes()),
+        //                     isStopButtonVisible: false,
+        //                 }).then((res: any) => this.fillForm(res))
+        //                     .catch((error: any) => console.error(error));
+        //             }
+        //         }]
+        // }).then(alert => alert.present());
     }
 
     /**
@@ -396,6 +396,8 @@ export class AddComponent implements OnInit, AfterViewInit {
                 // await this.pageUtils.stopLoading();
                 await this.pageUtils.apiErrorHandler(error, this.userId, this.authService.refreshToken());
             });
+
+        this.matDialog.closeAll();
     }
 
     /**

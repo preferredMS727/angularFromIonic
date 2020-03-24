@@ -95,7 +95,7 @@ export class PlaylistService {
                 || userProfile.personal_status === undefined
                 || userProfile.zipcode === undefined) {
                 await this.pageUtils.showToast(this.translate.instant('ERROR.PROFIL_NOT_SUFFICIENT'));
-                await this.router.navigateByUrl(`tabs/${userId}/profile`);
+                await this.router.navigateByUrl(`tabs/profile`);
             } else {
                 const playlistMatrix = await this.profileService.getPlaylistMatrix(userId);
                 const inputMap = await this.calcInputParams(assetsArray,
@@ -229,7 +229,9 @@ export class PlaylistService {
         inputMap.set(InputCols.j, (userProfile.current_shares === undefined || !withStocksAndInterests) ? 0 : userProfile.current_shares);
         inputMap.set(InputCols.k, (userProfile.current_bonds === undefined || !withStocksAndInterests) ? 0 : userProfile.current_bonds);
         for (const asset of assetsArray) {
+            console.log('playlist call is started!');
             const playlist = await this.getPlaylist(userProfile.id, asset);
+            console.log('playlist: ', playlist);
             switch (asset.type) {
                 case TypeEnum.Gesetzliche:
                     inputMap.set(InputCols.b,
@@ -302,12 +304,21 @@ export class PlaylistService {
     }
 
     private async getPlaylist(userId: number, asset: Asset): Promise<Playlist> {
+        console.log('compare: ', userId + '  :  ' + asset.id);
         if (this.assetPlaylistMap === undefined || this.assetPlaylistMap.size < 1) {
-            this.refreshAllAssets(userId);
+            await this.refreshAllAssets(userId);
+            return await this.assetPlaylistMap.get(asset.id);
+        } else {
+            return await this.assetPlaylistMap.get(asset.id);
         }
-        console.log(asset);
-        console.log(this.assetPlaylistMap);
-        return this.assetPlaylistMap.get(asset.id);
+    }
+
+    private convertMapsToObjects(mapInstance): object {
+        const obj = {};
+        for (const prop of mapInstance){
+          obj[prop[0]] = prop[1];
+        }
+        return obj;
     }
 
     async getShareBondPlan(userId: number, assets: Array<Asset>): Promise<any> {
