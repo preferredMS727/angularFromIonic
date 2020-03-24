@@ -8,7 +8,7 @@ import {HelpComponent} from '../main/help/help.component';
 import { async } from '@angular/core/testing';
 import { FuseSplashScreenService } from '@fuse/services/splash-screen.service';
 import { AlertComponent } from '../_shared/alert/alert.component';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +29,8 @@ export class PageUtilsService {
         private api: DefaultService,
         // private spinner: NgxSpinnerService,
         private _fuseSplashScreenService: FuseSplashScreenService,
-        public matDialog: MatDialog
+        public matDialog: MatDialog,
+        private _snackBar: MatSnackBar
     ) { }
     
     private loading = false;
@@ -131,22 +132,11 @@ export class PageUtilsService {
 
     public async showToast(result: string): Promise<void> {
         console.log(`Scan finished: ${result}`);
-        // let openToast;
-        // tslint:disable-next-line: no-conditional-assignment
-        // while ((openToast = await this.toastCtrl.getTop()) !== undefined) {
-        //     if (openToast.message === result) {
-        //         await this.toastCtrl.dismiss();
-        //     }
-        // }
-        // const toast = await this.toastCtrl.create( {
-        //     message: result,
-        //     showCloseButton: true,
-        //     closeButtonText: this.translate.instant('GENERAL.CLOSE_BTN'),
-        //     position: 'top',
-        //     color: 'danger',
-        //     keyboardClose: true
-        // } as ToastOptions);
-        // await toast.present();
+        this._snackBar.open(result, this.translate.instant('GENERAL.CLOSE_BTN'), {
+            duration: 5000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center'
+        });
     }
 
     // https://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
