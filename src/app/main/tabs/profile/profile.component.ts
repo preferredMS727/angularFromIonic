@@ -15,6 +15,7 @@ import {TabsComponent} from '../tabs.component';
 import {ProfileService} from '../../../services/profile.service';
 import { AlertComponent } from '../../../_shared/alert/alert.component';
 import { MatDialog } from '@angular/material';
+import { PageChangeActionService } from '../../../services/page-change-action.service';
 
 @Component({
   selector: 'app-profile',
@@ -63,8 +64,11 @@ export class ProfileComponent implements OnInit {
         private playlistService: PlaylistService,
         private profileService: ProfileService,
         private tabsPage: TabsComponent,
-        public matDialog: MatDialog
-    ) { }
+        public matDialog: MatDialog,
+        private pageChangeAction: PageChangeActionService
+    ) {
+        this.pageChangeAction.getLogoText('/tabs/profile');
+    }
 
     async ngOnInit(): Promise<void> {
         await this.refreshProfileData();

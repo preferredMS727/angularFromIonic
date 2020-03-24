@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,6 +14,7 @@ import { ApiTokenService } from '../../../services/token.service';
 import { OkDialogComponent } from '../../../../@fuse/components/ok-dialog/ok-dialog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {Router} from '@angular/router';
+import { PageChangeActionService } from '../../../services/page-change-action.service';
 
 @Component({
     selector     : 'toolbar',
@@ -22,7 +23,7 @@ import {Router} from '@angular/router';
     encapsulation: ViewEncapsulation.None
 })
 
-export class ToolbarComponent implements OnInit, OnDestroy
+export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit
 {
     horizontalNavbar: boolean;
     rightNavbar: boolean;
@@ -37,6 +38,7 @@ export class ToolbarComponent implements OnInit, OnDestroy
     private _unsubscribeAll: Subject<any>;
 
     logoUrl = 'assets/icons/icon.png';
+    public pageTitle = '';
     /**
      * Constructor
      *
@@ -55,7 +57,8 @@ export class ToolbarComponent implements OnInit, OnDestroy
         public token: ApiTokenService,
         public router: Router,
         public dialog: MatDialog,
-        private translate: TranslateService
+        private translate: TranslateService,
+        public pageChangeAction: PageChangeActionService
     )
     {
         // Set the defaults
@@ -104,6 +107,8 @@ export class ToolbarComponent implements OnInit, OnDestroy
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+
+        this.pageTitle = this._translateService.instant('LOGIN.TITLE');
         // this.okDialogRef = this.dialog.open(OkDialogComponent, {
         //     disableClose: false,
         //     maxWidth:'500px'
@@ -112,6 +117,20 @@ export class ToolbarComponent implements OnInit, OnDestroy
         // this.okDialogRef.componentInstance.headerTxt = this._translateService.instant('PROFILE.HELP_BTN');
         // this.okDialogRef.componentInstance.buttonTxt = this._translateService.instant('GENERAL.BACK_BTN');
 
+    }
+    ngAfterViewInit(): void {
+        console.log('getCurrentNavigation', this.router.getCurrentNavigation());
+        console.log(this.router.url);
+        console.log(window.location.href);
+        if (this.router.isActive(`tabs/home`, true)) {
+            console.log('home is active!');
+        } else if (this.router.isActive(`tabs/gap`, true)) {
+            console.log('gap is active!');
+        } else if (this.router.isActive(`tabs/playlist`, true)) {
+            console.log('playlist is active!');
+        } else if (this.router.isActive(`tabs/profile`, true)) {
+            console.log('profile is active!');
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -190,18 +209,36 @@ export class ToolbarComponent implements OnInit, OnDestroy
     }
     logout(): any  {
         this._apiAuthService.logout();
+        this.pageChangeAction.getLogoText('');
     }
     showHelp(): any {
+        let helpText = this._translateService.instant('HELP.HOME_TEXT');
+        if (this.router.isActive(`tabs/home`, true)) {
+            console.log('home is active!');
+            helpText = this._translateService.instant('HELP.HOME_TEXT');
+        } else if (this.router.isActive(`tabs/gap`, true)) {
+            helpText = this._translateService.instant('HELP.GAP_TEXT');
+        } else if (this.router.isActive(`tabs/playlist`, true)) {
+            helpText = this._translateService.instant('HELP.PLAYLIST_TEXT');
+        } else if (this.router.isActive(`tabs/profile`, true)) {
+            helpText = this._translateService.instant('HELP.PROFILE_TEXT');
+        }
+
         this.okDialogRef = this.dialog.open(OkDialogComponent, {
             disableClose: false,
             maxWidth: '500px'
         });
         this.okDialogRef.componentInstance.headerTxt = this._translateService.instant('PROFILE.HELP_BTN');
-        this.okDialogRef.componentInstance.messageTxt = this._translateService.instant('HELP.HOME_TEXT');
+        this.okDialogRef.componentInstance.messageTxt = helpText;
         this.okDialogRef.componentInstance.buttonTxt = this._translateService.instant('GENERAL.BACK_BTN');
     }
 
     navigateURL(route): void {
+        this.changeLogoText(route);
         this.router.navigate([route]);
+    }
+
+    public changeLogoText(route): void {
+        this.pageChangeAction.getLogoText(route);
     }
 }

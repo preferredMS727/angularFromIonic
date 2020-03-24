@@ -11,6 +11,7 @@ import {ProfileService} from '../../../services/profile.service';
 // import {ScreenOrientation} from '@ionic-native/screen-orientation/ngx';
 import {Subscription} from 'rxjs';
 import {Chart} from 'chart.js';
+import { PageChangeActionService } from '../../../services/page-change-action.service';
 // import * as Chart from 'chart.js';
 
 @Component({
@@ -73,8 +74,9 @@ export class PlaylistComponent implements OnInit, AfterViewInit, OnDestroy {
         public pageUtils: PageUtilsService,
         private playlistService: PlaylistService,
         private profileService: ProfileService,
-        // private screenOrientation: ScreenOrientation
-        ) {
+        private pageChangeAction: PageChangeActionService
+    ) {
+        this.pageChangeAction.getLogoText('/tabs/playlist');
     }
 
 

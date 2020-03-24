@@ -14,6 +14,7 @@ import TypeEnum = Asset.TypeEnum;
 import { ApiTokenService } from 'app/services/token.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AlertComponent } from '../../../../_shared/alert/alert.component';
+import { PageChangeActionService } from '../../../../services/page-change-action.service';
 
 // export interface DialogData {
 //     animal: string;
@@ -58,7 +59,8 @@ export class InsuranceListComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         private profileService: ProfileService,
         private cdr: ChangeDetectorRef,
-        public matDialog: MatDialog
+        public matDialog: MatDialog,
+        private pageChangeAction: PageChangeActionService
     ) { 
         this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
@@ -71,6 +73,8 @@ export class InsuranceListComponent implements OnInit {
             }
         });
         InsuranceListComponent.instance = this;
+        this.pageChangeAction.getLogoText('/tabs/home');     
+
     }
 
     async ngOnInit(): Promise<void> {

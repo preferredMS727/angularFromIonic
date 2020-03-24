@@ -9,6 +9,7 @@ import {Chart} from 'chart.js';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 import {CurrencyPipe} from '@angular/common';
 import {PageUtilsService} from '../../../services/page-utils.service';
+import { PageChangeActionService } from '../../../services/page-change-action.service';
 
 @Component({
   selector: 'app-gap',
@@ -30,8 +31,11 @@ export class GapComponent implements OnInit {
         private playlistService: PlaylistService,
         public translate: TranslateService,
         private currencyPipe: CurrencyPipe,
-        public pageUtils: PageUtilsService
-    ) { }
+        public pageUtils: PageUtilsService,
+        private pageChangeAction: PageChangeActionService
+    ) {
+        this.pageChangeAction.getLogoText('/tabs/gap');   
+    }
 
     async ngOnInit(): Promise<void> {
         const userId = await this.authService.getUserId();
