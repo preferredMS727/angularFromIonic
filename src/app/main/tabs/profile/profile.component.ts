@@ -167,12 +167,14 @@ export class ProfileComponent implements OnInit {
         } else {
             this.saveUser(undefined, this.translate.instant('PROFILE.CHANGE_PROFILE_SUCCESS'));
         }
-        await this.pageUtils.stopLoading();
+        console.log('before call stoploading!');
+        // await this.pageUtils.stopLoading();
         console.log('save function is called!');
     }
 
     private async saveUser(password: string, message: string): Promise<void> {
-        await this.pageUtils.startLoading();
+        console.log('it is called before startLoading!');
+        // await this.pageUtils.startLoading();
         const user =  {
             mail: this.mailCtrl.value,
             age: Number(this.ageCtrl.value.toFixed(0)),
@@ -190,7 +192,7 @@ export class ProfileComponent implements OnInit {
         this.api.usersUserIdPut(await this.authService.getUserId(), user, 'response')
             .subscribe(async (response: HttpResponse<string>) => {
                     console.log('before call stoploading!');
-                    await this.pageUtils.stopLoading();
+                    // await this.pageUtils.stopLoading();
                     if (response.ok) {
                         const alert = this.matDialog.open(AlertComponent, {
                             data: {
@@ -210,7 +212,7 @@ export class ProfileComponent implements OnInit {
                 ,
                 async (error: HttpErrorResponse) => {
                     console.log('before call stoploading!');
-                    await this.pageUtils.stopLoading();
+                    // await this.pageUtils.stopLoading();
                     await this.pageUtils.apiErrorHandler(error, await this.authService.getUserId(), this.authService.refreshToken());
                 });
     }

@@ -154,8 +154,8 @@ export const locale = {
         },
         SEARCH: {
             INPUT_FLD: 'Suche',
-            ALERT_HDR: '{{ insuranceType }} Rente hinzufügen',
-            ALERT_MSG: 'Gib bitte den Namen deiner Versicherung an. {{ optional }}',
+            ALERT_HDR: 'Rente hinzufügen',
+            ALERT_MSG: 'Gib bitte den Namen deiner Versicherung an.',
             ALERT_INPUT_PLC: 'Name der Versicherung',
             ALERT_NO_NAME: 'Bitte gib einen Namen an.',
             OVERVIEW_LBL: 'Wähle einen Altersvorsorgevertrag'

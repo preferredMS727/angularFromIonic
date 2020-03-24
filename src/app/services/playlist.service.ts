@@ -35,6 +35,7 @@ export class PlaylistService {
     }
 
     public async refreshAllAssets(userId: number): Promise<Array<Asset>> {
+        console.log('it is called before startLoading!');
         // await this.pageUtils.startLoading();
         if (this.intervalId !== undefined) {
             clearInterval(this.intervalId);
@@ -139,7 +140,7 @@ export class PlaylistService {
             input[i] *= array[i];
             console.log(`Input ${Array.from(inputMap.keys())[i]}: ${input[i]}`);
         }
-        await this.pageUtils.stopLoading();
+        // await this.pageUtils.stopLoading();
         return await this.calcPlaylistMatrix(input, playlistMatrix);
     }
 

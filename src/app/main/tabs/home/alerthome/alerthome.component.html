@@ -1,13 +1,13 @@
 <div id="modal-content-wrapper">
     <header id="modal-header">
-        <h1 id="modal-title">{{ data.insuranceType | translate }} {{ 'SEARCH.ALERT_HDR' | translate }}</h1>
-        <h2 id="modal-title">{{ 'SEARCH.ALERT_MSG' | translate }}</h2>
+        <p id="modal-title">{{ data.insuranceType | translate }} {{ 'SEARCH.ALERT_HDR' | translate }}</p>
+        <p id="modal-subtitle">{{ 'SEARCH.ALERT_MSG' | translate }}</p>
     </header>
     <section id="modal-body">
-        <input 
-            matInput type="text" name="insuranceName" [(ngModel)]="insurance.name"
-            placeholder="{{ this.translate.instant('SEARCH.ALERT_INPUT_PLC') }}"
-        >
+        <mat-form-field appearance="outline">
+            <mat-label>{{ this.translate.instant('SEARCH.ALERT_INPUT_PLC') }}</mat-label>
+            <input matInput [(ngModel)]="insurance.name" type="text" name="insuranceName">
+        </mat-form-field>
     </section>
     <footer id="modal-footer">
         <button mat-raised-button id="modal-cancel-button" (click)="closeModal()">

@@ -25,7 +25,8 @@ export class ProfileService {
 
     public async refresh(userId: number): Promise<boolean> {
         try {
-            await this.pageUtils.startLoading();
+            console.log('it is called before startLoading!');
+            // await this.pageUtils.startLoading();
             if (this.intervalId !== undefined) {
                 clearInterval(this.intervalId);
             }

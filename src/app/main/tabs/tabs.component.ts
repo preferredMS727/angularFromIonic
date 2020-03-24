@@ -36,6 +36,8 @@ export class TabsComponent implements OnInit {
     }
 
     async refresh(): Promise<void> {
+        // console.log('it is called before startLoading!');
+        // this.pageUtils.startLoading();
         const userId = await this.auth.getUserId();
         const success = await this.profileService.refresh(userId);
         if (success) {

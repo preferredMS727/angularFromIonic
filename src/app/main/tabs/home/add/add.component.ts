@@ -286,7 +286,8 @@ export class AddComponent implements OnInit, AfterViewInit {
      * This method submits the user inputs to the backend database
      */
     public async submitInputs(): Promise<void> {
-        await this.pageUtils.startLoading();
+        console.log('it is called before startLoading!');
+        // await this.pageUtils.startLoading();
         console.log(this.assetModel);
 
         this.assetModel.timestamp = this.getDate().toString();
@@ -385,14 +386,14 @@ export class AddComponent implements OnInit, AfterViewInit {
         this.api.usersUserIdAssetsPost(this.userId, this.assetModel, 'response').subscribe(
             async (response: HttpResponse<Asset>) => {
                 console.log('before call stoploading!');
-                await this.pageUtils.stopLoading();
+                // await this.pageUtils.stopLoading();
                 await this.uploadPhoto(response.body);
                 this.closeModal();
                 await this.playlistService.refreshAllAssets(this.userId);
             },
             async (error: HttpErrorResponse) => {
                 console.log('before call stoploading!');
-                await this.pageUtils.stopLoading();
+                // await this.pageUtils.stopLoading();
                 await this.pageUtils.apiErrorHandler(error, this.userId, this.authService.refreshToken());
             });
     }
@@ -402,28 +403,27 @@ export class AddComponent implements OnInit, AfterViewInit {
      * @param asset: The insurance the picture belongs to
      */
     private async uploadPhoto(asset: Asset): Promise<any> {
-        // const base64Data = 'data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
-        // console.log('imageAsB64: ', this.imageAsB64);
-        // console.log(this.urltoFile(base64Data, 'testImageFile', 'image/*'));
+        // Now it has not base64 Image due to no camera
+        
+        // console.log('it is called before startLoading!');
+        // // this.pageUtils.startLoading();
+        // this.urltoFile(this.imageAsB64, 'upload', 'image/*')
+        //     .then(async (file) => {
+        //         this.api.configuration.accessToken = await this.tokenService.get();
+        //         this.api.configuration.withCredentials = true;
+        //         this.api.usersUserIdAssetsAssetIdFilePost(this.userId, asset.id, file, 'response').subscribe(
+        //             async () => {
+        //                 console.log('before call stoploading!');
+        //                 // await this.pageUtils.stopLoading();
+        //                 console.log('File uploaded successfully');
+        //             },
+        //             async (error: HttpErrorResponse) => {
+        //                 console.log('before call stoploading!');
+        //                 // await this.pageUtils.stopLoading();
+        //                 await this.pageUtils.apiErrorHandler(error, this.userId, this.authService.refreshToken());
+        //             });
 
-        this.pageUtils.startLoading();
-        this.urltoFile(this.imageAsB64, 'upload', 'image/*')
-            .then(async (file) => {
-                this.api.configuration.accessToken = await this.tokenService.get();
-                this.api.configuration.withCredentials = true;
-                this.api.usersUserIdAssetsAssetIdFilePost(this.userId, asset.id, file, 'response').subscribe(
-                    async () => {
-                        console.log('before call stoploading!');
-                        await this.pageUtils.stopLoading();
-                        console.log('File uploaded successfully');
-                    },
-                    async (error: HttpErrorResponse) => {
-                        console.log('before call stoploading!');
-                        await this.pageUtils.stopLoading();
-                        await this.pageUtils.apiErrorHandler(error, this.userId, this.authService.refreshToken());
-                    });
-
-            });
+        //     });
     }
 
     dataURItoBlob(dataURI): Blob {

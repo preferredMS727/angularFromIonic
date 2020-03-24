@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FuseConfigService } from '@fuse/services/config.service';
 import { ApiAuthService } from 'app/services/auth.service';
 // import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
-import { OkDialogComponent } from "../../../@fuse/components/ok-dialog/ok-dialog.component";
+import { OkDialogComponent } from '../../../@fuse/components/ok-dialog/ok-dialog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -14,8 +14,8 @@ import {
     MatSnackBar,
     MatSnackBarConfig,   
   } from '@angular/material';
-import {HttpResponse} from "@angular/common/http";
-import {Router} from "@angular/router";
+import {HttpResponse} from '@angular/common/http';
+import {Router} from '@angular/router';
 @Component({
     selector: 'register',
     templateUrl: './register.component.html',
@@ -27,15 +27,15 @@ export class RegisterComponent implements OnInit {
     // confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     okDialogRef: MatDialogRef<OkDialogComponent>;
     registerForm: FormGroup;
-    snackConfig:any;
-    logoUrl = "";
+    snackConfig: any;
+    logoUrl = '';
     constructor(
         private _fuseConfigService: FuseConfigService,
         private _formBuilder: FormBuilder,
         private auth: ApiAuthService,
         public snackBar: MatSnackBar,
         public dialog: MatDialog,
-        public translate:TranslateService,
+        public translate: TranslateService,
         public router: Router,
     ) {
         // Configure the layout
@@ -63,13 +63,13 @@ export class RegisterComponent implements OnInit {
             email: ['', [Validators.required, Validators.email]]
         });
         this.snackConfig = new MatSnackBarConfig();
-        this.snackConfig.verticalPosition = "top";
-        this.snackConfig.horizontalPosition = "center";
+        this.snackConfig.verticalPosition = 'top';
+        this.snackConfig.horizontalPosition = 'center';
         this.snackConfig.duration = 3000;
 
         this.okDialogRef = this.dialog.open(OkDialogComponent, {
             disableClose: false,
-            maxWidth:'500px'
+            maxWidth: '500px'
         });
         this.okDialogRef.componentInstance.messageTxt = this.translate.instant('REGISTER.BEFORE_ALERT_MSG');
         this.okDialogRef.componentInstance.headerTxt = this.translate.instant('REGISTER.BEFORE_ALERT_HDR');
@@ -77,21 +77,21 @@ export class RegisterComponent implements OnInit {
 
     }
 
-    onSubmit() {
-        let user = <User>{
+    onSubmit(): void {
+        const user =  {
             mail: this.registerForm.value['email'].toLowerCase()
-        };
+        } as User;
 
         this.auth.register(user).subscribe(
-            async (response:any) => {
+            async (response: any) => {
                 this.okDialogRef = this.dialog.open(OkDialogComponent, {
                     disableClose: false,
-                    maxWidth:'500px'
+                    maxWidth: '500px'
                 });
                 this.okDialogRef.componentInstance.headerTxt = this.translate.instant('REGISTER.SUCCESSFUL_ALERT_HDR');
                 this.okDialogRef.componentInstance.messageTxt = this.translate.instant('REGISTER.SUCCESSFUL_ALERT_MSG');
                 this.okDialogRef.componentInstance.buttonTxt = this.translate.instant('GENERAL.CONFIRM_BTN');
-                this.okDialogRef.afterClosed().subscribe(res =>{
+                this.okDialogRef.afterClosed().subscribe(res => {
                     this.router.navigateByUrl(`login`);
                 });
 
@@ -102,12 +102,12 @@ export class RegisterComponent implements OnInit {
                 } else if (error1.status === 400 && error1.error.includes('exists')) {
                     this.okDialogRef = this.dialog.open(OkDialogComponent, {
                         disableClose: false,
-                        maxWidth:'500px'
+                        maxWidth: '500px'
                     });
                     this.okDialogRef.componentInstance.headerTxt = this.translate.instant('REGISTER.UNSUCCESSFUL_ALERT_HDR');
                     this.okDialogRef.componentInstance.messageTxt = this.translate.instant('REGISTER.EXISTS_ALERT_MSG');
                     this.okDialogRef.componentInstance.buttonTxt = this.translate.instant('GENERAL.CONFIRM_BTN');
-                    this.okDialogRef.afterClosed().subscribe(res =>{
+                    this.okDialogRef.afterClosed().subscribe(res => {
                         this.router.navigateByUrl(`login`);
                     });
 

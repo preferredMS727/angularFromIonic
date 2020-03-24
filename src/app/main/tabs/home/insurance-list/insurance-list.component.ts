@@ -82,6 +82,7 @@ export class InsuranceListComponent implements OnInit {
      */
 
     private async getInsurances(userId: number): Promise<void> {
+        console.log('it is called before startLoading!');
         // await this.pageUtils.startLoading();
 
         if (this.intervalId !== undefined) {
@@ -180,7 +181,8 @@ export class InsuranceListComponent implements OnInit {
      * This method adds an insurance to the view
      */
     public async addInsurance(): Promise<void> {
-        await this.pageUtils.startLoading();
+        console.log('it is called before startLoading!');
+        // await this.pageUtils.startLoading();
         const userId = await this.auth.getUserId();
 
         const dialogConfig = new MatDialogConfig();
@@ -198,13 +200,7 @@ export class InsuranceListComponent implements OnInit {
         });
 
         console.log('before call stoploading!');
-        await this.pageUtils.stopLoading();
-        // const modal = await this.modalCtrl.create( {
-        //     component: SearchComponent,
-        //     componentProps: {userId: userId}
-        // } as ModalOptions);
-        // await modal.present();
-        // modal.onDidDismiss().then(() => this.getInsurances(userId));
+        // await this.pageUtils.stopLoading();
     }
 
     /**
@@ -212,7 +208,8 @@ export class InsuranceListComponent implements OnInit {
      * @param asset: The insurance to delete from the backend
      */
     private async deleteInsuranceHandler(asset: Asset): Promise<void> {
-        await this.pageUtils.startLoading();
+        console.log('it is called before startLoading!');
+        // await this.pageUtils.startLoading();
         this.api.configuration.accessToken = await this.toekn.get();
         this.api.configuration.withCredentials = true;
         const userId = await this.auth.getUserId();
@@ -221,12 +218,12 @@ export class InsuranceListComponent implements OnInit {
                 await this.playlistService.refreshAllAssets(userId);
                 await this.getInsurances(userId);
                 console.log('before call stoploading!');
-                await this.pageUtils.stopLoading();
+                // await this.pageUtils.stopLoading();
             },
             async (error: HttpErrorResponse) => {
                 await this.pageUtils.apiErrorHandler(error, userId, this.auth.refreshToken());
                 console.log('before call stoploading!');
-                await this.pageUtils.stopLoading();
+                // await this.pageUtils.stopLoading();
             });
     }
 }

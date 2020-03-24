@@ -20,11 +20,14 @@
         #modal-title {
             font-size: 22px;
         }
+        #modal-subtitle {
+            font-size: 16px;
+        }
     }
 
     #modal-body {
-        .overview {
-            font-size: 24px;
+        mat-form-field {
+            width: 100%;
         }
     }
 
@@ -33,9 +36,6 @@
         align-self: center;
         #modal-action-button {
             margin-right: 30px;
-        }
-        
-        #modal-cancel-button {
         }
     }
 }

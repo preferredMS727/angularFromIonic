@@ -11,6 +11,7 @@ import {ApiTokenService} from 'app/services/token.service';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 import {TranslateService} from '@ngx-translate/core';
 import { User } from '../../../api';
+import { PageUtilsService} from '../../services/page-utils.service';
 
 @Component({
     selector: 'login',
@@ -33,6 +34,7 @@ export class LoginComponent implements OnInit {
         public auth: ApiAuthService,
         public token: ApiTokenService,
         private translate: TranslateService,
+        public pageUtils: PageUtilsService,
     ) {
         this._fuseConfigService.config = {
             layout: {
@@ -91,6 +93,8 @@ export class LoginComponent implements OnInit {
         }, error => {
             this.auth.logout();
         });
+        // console.log('it is called before startLoading!');
+        // this.pageUtils.startLoading();
         this.router.navigate([`tabs`]);
         // this.router.navigate([`tabs/${data['uid']}`]);
     }
