@@ -384,12 +384,14 @@ export class AddComponent implements OnInit, AfterViewInit {
 
         this.api.usersUserIdAssetsPost(this.userId, this.assetModel, 'response').subscribe(
             async (response: HttpResponse<Asset>) => {
+                console.log('before call stoploading!');
                 await this.pageUtils.stopLoading();
                 await this.uploadPhoto(response.body);
                 this.closeModal();
                 await this.playlistService.refreshAllAssets(this.userId);
             },
             async (error: HttpErrorResponse) => {
+                console.log('before call stoploading!');
                 await this.pageUtils.stopLoading();
                 await this.pageUtils.apiErrorHandler(error, this.userId, this.authService.refreshToken());
             });
@@ -411,10 +413,12 @@ export class AddComponent implements OnInit, AfterViewInit {
                 this.api.configuration.withCredentials = true;
                 this.api.usersUserIdAssetsAssetIdFilePost(this.userId, asset.id, file, 'response').subscribe(
                     async () => {
+                        console.log('before call stoploading!');
                         await this.pageUtils.stopLoading();
                         console.log('File uploaded successfully');
                     },
                     async (error: HttpErrorResponse) => {
+                        console.log('before call stoploading!');
                         await this.pageUtils.stopLoading();
                         await this.pageUtils.apiErrorHandler(error, this.userId, this.authService.refreshToken());
                     });

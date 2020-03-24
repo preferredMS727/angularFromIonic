@@ -59,7 +59,7 @@ export class ProfileService {
             await this.pageUtils.apiErrorHandler(e, userId, this.authService.refreshToken());
             return false;
         } finally {
-            await this.pageUtils.stopLoading();
+            // await this.pageUtils.stopLoading();
         }
         return false;
     }

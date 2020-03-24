@@ -8,6 +8,7 @@ import {PageUtilsService} from '../../services/page-utils.service';
 import {PlaylistService} from '../../services/playlist.service';
 import {ProfileService} from '../../services/profile.service';
 import { ApiTokenService } from 'app/services/token.service';
+// import { FuseSplashScreenService } from '@fuse/services/splash-screen.service';
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
@@ -17,14 +18,18 @@ export class TabsComponent implements OnInit {
 
     insurances: Array<Asset> = undefined;
 
-    constructor(private route: ActivatedRoute, private router: Router,
-                private alertCtrl: AlertController,
-                private pageUtils: PageUtilsService,
-                private translate: TranslateService,
-                private auth: ApiAuthService,
-                private token: ApiTokenService,
-                private playlistService: PlaylistService,
-                private profileService: ProfileService) { }
+    constructor(
+        private route: ActivatedRoute, private router: Router,
+        private alertCtrl: AlertController,
+        private pageUtils: PageUtilsService,
+        private translate: TranslateService,
+        private auth: ApiAuthService,
+        private token: ApiTokenService,
+        private playlistService: PlaylistService,
+        private profileService: ProfileService,
+        // private _fuseSplashScreenService: FuseSplashScreenService
+    ) {
+    }
 
     ngOnInit(): void {
         this.refresh();

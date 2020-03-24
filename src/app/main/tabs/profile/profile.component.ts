@@ -167,6 +167,7 @@ export class ProfileComponent implements OnInit {
         } else {
             this.saveUser(undefined, this.translate.instant('PROFILE.CHANGE_PROFILE_SUCCESS'));
         }
+        await this.pageUtils.stopLoading();
         console.log('save function is called!');
     }
 
@@ -188,6 +189,7 @@ export class ProfileComponent implements OnInit {
         this.api.configuration.withCredentials = true;
         this.api.usersUserIdPut(await this.authService.getUserId(), user, 'response')
             .subscribe(async (response: HttpResponse<string>) => {
+                    console.log('before call stoploading!');
                     await this.pageUtils.stopLoading();
                     if (response.ok) {
                         const alert = this.matDialog.open(AlertComponent, {
@@ -207,6 +209,7 @@ export class ProfileComponent implements OnInit {
                 }
                 ,
                 async (error: HttpErrorResponse) => {
+                    console.log('before call stoploading!');
                     await this.pageUtils.stopLoading();
                     await this.pageUtils.apiErrorHandler(error, await this.authService.getUserId(), this.authService.refreshToken());
                 });

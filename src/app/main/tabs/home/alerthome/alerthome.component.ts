@@ -17,7 +17,7 @@ export class AlerthomeComponent implements OnInit {
     insurance: any;
 
     constructor(
-        private translate: TranslateService,
+        public translate: TranslateService,
         public dialogRef: MatDialogRef<AlerthomeComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private matDialog: MatDialog

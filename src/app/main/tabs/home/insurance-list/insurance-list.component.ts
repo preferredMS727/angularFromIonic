@@ -82,7 +82,7 @@ export class InsuranceListComponent implements OnInit {
      */
 
     private async getInsurances(userId: number): Promise<void> {
-        await this.pageUtils.startLoading();
+        // await this.pageUtils.startLoading();
 
         if (this.intervalId !== undefined) {
             clearInterval(this.intervalId);
@@ -120,7 +120,6 @@ export class InsuranceListComponent implements OnInit {
         console.log('assetsMap: ', this.assetsMap);
 
         await this.setPension(userId);
-        await this.pageUtils.stopLoading();
         // });
 
     }
@@ -143,6 +142,8 @@ export class InsuranceListComponent implements OnInit {
         });*/
         this.pension = (await this.playlistService.getInsurancePension(userId)).get(80);
         this.changeDetector.markForCheck();
+        console.log('before call stoploading!');
+        await this.pageUtils.stopLoading();
     }
     public async deleteInsurance(asset: Asset): Promise<void>  {        
         const deleteAlert = this.matDialog.open(AlertComponent, {
@@ -196,6 +197,7 @@ export class InsuranceListComponent implements OnInit {
             this.getInsurances(userId);
         });
 
+        console.log('before call stoploading!');
         await this.pageUtils.stopLoading();
         // const modal = await this.modalCtrl.create( {
         //     component: SearchComponent,
@@ -216,13 +218,15 @@ export class InsuranceListComponent implements OnInit {
         const userId = await this.auth.getUserId();
         this.api.usersUserIdAssetsAssetIdDelete(userId, asset.id).subscribe(
             async () => {
-                await this.pageUtils.stopLoading();
                 await this.playlistService.refreshAllAssets(userId);
                 await this.getInsurances(userId);
+                console.log('before call stoploading!');
+                await this.pageUtils.stopLoading();
             },
             async (error: HttpErrorResponse) => {
-                await this.pageUtils.stopLoading();
                 await this.pageUtils.apiErrorHandler(error, userId, this.auth.refreshToken());
+                console.log('before call stoploading!');
+                await this.pageUtils.stopLoading();
             });
     }
 }

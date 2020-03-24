@@ -3,17 +3,17 @@ import { CommonModule } from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 
-import { GapComponent } from './gap.component';
+// import { GapComponent } from './gap.component';
 import {TranslateModule} from '@ngx-translate/core';
 // import { MaterialModule } from 'app/main/material/material.module';
 
 @NgModule({
-  declarations: [GapComponent],
+  declarations: [],
   imports: [
     CommonModule,
     FormsModule,
     TranslateModule.forChild(),
-    RouterModule.forChild([{path: '', component: GapComponent}]),
+    // RouterModule.forChild([{path: '', component: GapComponent}]),
     // MaterialModule
   ],
   exports: [

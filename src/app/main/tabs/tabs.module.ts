@@ -15,6 +15,7 @@ import { GapComponent } from './gap/gap.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { ProfileComponent } from './profile/profile.component';
 import { TabsComponent } from './tabs.component';
+import { HelpComponent } from '../help/help.component';
 // import { MatProgressBarModule } from '@angular/material/progress-bar';
 // import { MatButtonModule, MatLabel } from '@angular/material';
 // import { MaterialModule } from 'app/main/material/material.module';
@@ -58,7 +59,7 @@ const tabsRoute: Routes = [
 ];
 
 @NgModule({
-  declarations: [ TabsComponent, GapComponent, PlaylistComponent, ProfileComponent],
+  declarations: [ TabsComponent, GapComponent, PlaylistComponent, ProfileComponent, HelpComponent],
   imports: [
     CommonModule,
     FormsModule,

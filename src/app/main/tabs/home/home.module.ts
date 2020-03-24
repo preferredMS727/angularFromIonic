@@ -19,7 +19,7 @@ import {SearchComponent} from './search/search.component';
 import {SearchPipe} from '../../../pipes/search.pipe';
 import { AddComponent } from './add/add.component';
 import {InstructionComponent} from './instruction/instruction.component';
-import { BrowserModule } from '@angular/platform-browser';
+// import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from 'app/main/material/material.module';
 import { SharedCpntsModule } from 'app/_shared/shared-cpnts.module';
 import { AlerthomeComponent } from './alerthome/alerthome.component';

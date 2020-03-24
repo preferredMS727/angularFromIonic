@@ -42,7 +42,7 @@
         <mat-list-item role="listItem">
             <mat-label [innerHTML]="'DATA_PROTECTION.AGREEMENT_LBL' | translate" class="plaintext" text-wrap>
             </mat-label>
-            <mat-checkbox [(ngModel)]="agreement" [labelPosition]="'before'" [disabled]="disabled" (change)="suppressDataProtection()">
+            <mat-checkbox [(ngModel)]="agreement" [labelPosition]="'before'" (change)="suppressDataProtection()">
                 {{ 'GENERAL.DO_NOT_SHOW_BTN' | translate }}
             </mat-checkbox>
         </mat-list-item>

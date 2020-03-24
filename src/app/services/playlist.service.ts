@@ -35,7 +35,7 @@ export class PlaylistService {
     }
 
     public async refreshAllAssets(userId: number): Promise<Array<Asset>> {
-        await this.pageUtils.startLoading();
+        // await this.pageUtils.startLoading();
         if (this.intervalId !== undefined) {
             clearInterval(this.intervalId);
         }
@@ -71,7 +71,7 @@ export class PlaylistService {
         } catch (e) {
             await this.pageUtils.apiErrorHandler(e, userId, this.authService.refreshToken());
         }
-        await this.pageUtils.stopLoading();
+        // await this.pageUtils.stopLoading();
         return this.assetArray;
     }
 
@@ -139,6 +139,7 @@ export class PlaylistService {
             input[i] *= array[i];
             console.log(`Input ${Array.from(inputMap.keys())[i]}: ${input[i]}`);
         }
+        await this.pageUtils.stopLoading();
         return await this.calcPlaylistMatrix(input, playlistMatrix);
     }
 

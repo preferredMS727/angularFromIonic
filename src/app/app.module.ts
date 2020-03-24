@@ -26,7 +26,7 @@ import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 import {CurrencyPipe} from '@angular/common';
 import { MaterialModule } from './main/material/material.module';
 import { SearchPipe } from './pipes/search.pipe';
-import { NgxSpinnerModule } from 'ngx-spinner';
+// import { NgxSpinnerModule } from 'ngx-spinner';
 import { SharedCpntsModule } from '../app/_shared/shared-cpnts.module';
 import { from } from 'rxjs';
 // import { AuthModule } from './auth/auth.module';
@@ -90,7 +90,7 @@ const appRoutes: Routes = [
 
         // App modules
         LayoutModule,
-        NgxSpinnerModule,
+        // NgxSpinnerModule,
         SharedCpntsModule
     ],
     bootstrap   : [
